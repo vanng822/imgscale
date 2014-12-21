@@ -21,7 +21,7 @@ func Configure(config *Config) *Handler {
 		formats[format.Prefix] = format
 	}
 
-	path := fmt.Sprintf("/%s/(?P<format>%s)/(?P<filename>.+).(?P<ext>%s)", config.Prefix, strings.Join(prefixes, "|"), strings.Join(config.Exts, "|"))
+	path := fmt.Sprintf("/%s/(?P<format>%s)/(?P<filename>.+)\\.(?P<ext>%s)", config.Prefix, strings.Join(prefixes, "|"), strings.Join(config.Exts, "|"))
 
 	return &Handler{Formats: formats, Path: path, Config: config, regexp: regexp.MustCompile(path), supportedExts: supportedExts}
 }
