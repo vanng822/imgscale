@@ -11,8 +11,6 @@ type ImageInfo struct {
 	Width     int
 	Height    int
 	KeepRatio bool
-	// True if image should served original
-	Original bool
 }
 
 type InfoParser interface {
@@ -26,7 +24,7 @@ type StandardInfoParser struct {
 func (p StandardInfoParser) Parse(req *http.Request) *ImageInfo {
 	// baseurl/img/{widthxheight}/image.{png,jpg}
 	// example.com/img/24x23/test.jpg
-	return &ImageInfo{"./data/kth.jpg", 100, 200, true, false}
+	return &ImageInfo{"./data/kth.jpg", 100, 200, true}
 }
 
 var parser InfoParser

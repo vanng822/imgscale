@@ -11,7 +11,7 @@ func GetImage(info *ImageInfo) (*imagick.MagickWand, error) {
 		return img, err
 	}
 
-	if info.Original {
+	if info.Width == 0 && info.Height == 0 {
 		return img, nil
 	}
 	
