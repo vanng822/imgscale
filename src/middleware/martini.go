@@ -12,6 +12,7 @@ type Format struct {
 	Prefix string
 	Width  int
 	Height int
+	Keepratio bool 
 }
 
 type Config struct {
@@ -35,7 +36,7 @@ func Martini(config *Config, app *martini.ClassicMartini) {
 			fmt.Println(params)
 			format := formats[params["format"]]
 			filename := fmt.Sprintf("%s/%s", config.Path, params["filename"])
-			info := imgscale.ImageInfo{filename, format.Width, format.Height, true}
+			info := imgscale.ImageInfo{filename, format.Width, format.Height, format.Keepratio}
 			img, err := imgscale.GetImage(&info)
 			defer img.Destroy()
 			if err == nil {
