@@ -7,15 +7,6 @@ import (
 	"strconv"
 )
 
-type ImageInfo struct {
-	// full path to the image
-	Filename  string
-	Width     int
-	Height    int
-	KeepRatio bool
-	Ext       string
-	Comment   string
-}
 
 type Format struct {
 	Prefix    string
