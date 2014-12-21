@@ -18,6 +18,7 @@ type Config struct {
 	Path    string
 	Prefix  string
 	Formats []*Format
+	Exts []string
 }
 
 func Martini(config *Config, app *martini.ClassicMartini) {
@@ -27,7 +28,7 @@ func Martini(config *Config, app *martini.ClassicMartini) {
 		prefixes[i] = format.Prefix
 		formats[format.Prefix] = format
 	}
-	path := fmt.Sprintf("/%s/(?P<format>%s)/(?P<filename>.+.(jpg|png))", config.Prefix, strings.Join(prefixes, "|"))
+	path := fmt.Sprintf("/%s/(?P<format>%s)/(?P<filename>.+.(%s))", config.Prefix, strings.Join(prefixes, "|"), strings.Join(config.Exts, "|"))
 	fmt.Println(path)
 	app.Get(path,
 		func(c martini.Context, res http.ResponseWriter, req *http.Request, params martini.Params) {
