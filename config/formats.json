@@ -5,5 +5,6 @@
 		{"Prefix": "100x100", "Width": 100, "Height": 100, "Keepratio": true},
 		{"Prefix": "original", "Width": 0, "Height": 0, "Keepratio": true}
 	],
-	"Exts": ["jpg", "png"]
+	"Exts": ["jpg", "png"],
+	"Comment": "Copyright"
 }

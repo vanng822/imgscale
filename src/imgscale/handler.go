@@ -57,6 +57,10 @@ func (h *Handler) GetImageInfo(format, filename, ext string) *ImageInfo {
 }
 
 func (h *Handler) Serve(res http.ResponseWriter, req *http.Request, info *ImageInfo) {
+	if info.Height == 0 && info.Width == 0 && info.Comment == "" {
+		http.ServeFile(res, req, info.Filename)
+		return
+	}
 	img, err := GetImage(info)
 	defer img.Destroy()
 	if err == nil {
