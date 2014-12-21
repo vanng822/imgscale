@@ -1,0 +1,9 @@
+{
+	"Path": "./data",
+	"Prefix": "img",
+	"Formats": [
+		{"Prefix": "100x100", "Width": 100, "Height": 100},
+		{"Prefix": "original", "Width": 0, "Height": 0}
+	],
+	"Exts": ["jpg", "png"]
+}
