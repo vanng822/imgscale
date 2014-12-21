@@ -35,7 +35,10 @@ func Handler(res http.ResponseWriter, req *http.Request) {
 	parser = StandardInfoParser{}
 	info := parser.Parse(req)
 	if info != nil {
-		img := GetImage(info)
-		res.Write(img.GetImageBlob())
+		img, err := GetImage(info)
+		defer img.Destroy()
+		if err == nil {
+			res.Write(img.GetImageBlob())
+		}
 	}
 }
