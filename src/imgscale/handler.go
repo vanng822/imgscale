@@ -7,12 +7,10 @@ import (
 	"strconv"
 )
 
-
 type Format struct {
-	Prefix    string
-	Width     int
-	Height    int
-	Keepratio bool
+	Prefix string
+	Height int
+	Ratio  float64
 }
 
 type Config struct {
@@ -35,7 +33,7 @@ type Handler struct {
 
 func (h *Handler) Match(url string) (bool, *ImageInfo) {
 	matches := h.regexp.FindStringSubmatch(url)
-	
+
 	if len(matches) == 0 {
 		return false, nil
 	}
@@ -53,11 +51,11 @@ func (h *Handler) GetFormat(format string) *Format {
 
 func (h *Handler) GetImageInfo(format, filename, ext string) *ImageInfo {
 	f := h.GetFormat(format)
-	return &ImageInfo{fmt.Sprintf("%s/%s.%s", h.Config.Path, filename, ext), f.Width, f.Height, f.Keepratio, ext, h.Config.Comment}
+	return &ImageInfo{fmt.Sprintf("%s/%s.%s", h.Config.Path, filename, ext), f.Height, f.Ratio, ext, h.Config.Comment}
 }
 
 func (h *Handler) Serve(res http.ResponseWriter, req *http.Request, info *ImageInfo) {
-	if info.Height == 0 && info.Width == 0 && info.Comment == "" {
+	if info.Height == 0 && info.Comment == "" {
 		http.ServeFile(res, req, info.Filename)
 		return
 	}

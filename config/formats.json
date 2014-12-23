@@ -2,8 +2,8 @@
 	"Path": "./data",
 	"Prefix": "img",
 	"Formats": [
-		{"Prefix": "100x100", "Width": 100, "Height": 100, "Keepratio": true},
-		{"Prefix": "original", "Width": 0, "Height": 0, "Keepratio": true}
+		{"Prefix": "100x100", "Height": 100, "Ratio": 1.5},
+		{"Prefix": "original", "Height": 0, "Ratio": 0}
 	],
 	"Exts": ["jpg", "png"],
 	"Comment": "Copyright"
