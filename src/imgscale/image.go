@@ -43,7 +43,7 @@ func scaleImage(img *imagick.MagickWand, info *ImageInfo) error {
 	if info.Height <= 0 {
 		return nil	
 	}
-	scaleFactor := float64(info.Height) / float64(img.GetImageWidth())
+	scaleFactor := float64(info.Height) / float64(img.GetImageHeight())
 	return img.ScaleImage(uint(float64(img.GetImageWidth())*scaleFactor), uint(float64(img.GetImageHeight())*scaleFactor))
 }
 
@@ -70,8 +70,8 @@ func GetImage(info *ImageInfo) (*imagick.MagickWand, error) {
 	if info.Comment != "" {
 		img.CommentImage(info.Comment)
 	}
-	// "no crop" can be specified with Ratio zero or one
-	if (info.Ratio == 1.0 || info.Ratio == 0.0) {
+	// No crop if zero
+	if (info.Ratio <= 0.0) {
 		err = scaleImage(img, info)
 	} else { // Crop first and then scale, no problem if height is zero
 		err = cropScaleImage(img, info)
