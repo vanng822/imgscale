@@ -21,35 +21,29 @@ type CropParams struct {
 }
 
 func GetCropParams(imageWidth, imageHeight uint, ratio float64) *CropParams {
-	/*image_ratio = (1.0 * image_width) / image_height
+	imageRatio := float64(imageWidth) / float64(imageHeight)
+	y := 0
+	x := 0
+	width := imageWidth
+	height := imageHeight
 
-    # start with same size
-    top = 0
-    left = 0
-    width = image_width
-    height = image_height
+	if ratio < imageRatio {
+		width = uint(float64(imageHeight) * ratio)
+		x = int((imageWidth - width) / 2)
+	} else if ratio > imageRatio {
+		height = uint(float64(imageWidth) / ratio)
+		y = int((imageHeight - height) / 2)
+	}
 
-    if ratio < image_ratio: # => width is larger than in the new ratio
-        width = image_height * ratio
-        left = (image_width - width) / 2
-    elif ratio > image_ratio:
-        height = image_width / ratio
-        top = (image_height - height) / 2
-
-    return CroppingParams(int(left), int(top), int(left + width), int(top + height))
-    */
-	imageRatio = (1.0 * imageWidth) / imageHeight
-	
-	return &CropParams{}
+	return &CropParams{Width: width, Height: height, X: x, Y: y}
 }
 
 func scaleImage(img *imagick.MagickWand, info *ImageInfo) error {
-	var scaleFactor float64
-	if info.Height > 0.0 {
-		scaleFactor = float64(info.Height) / float64(img.GetImageWidth())
-	} else {
-		scaleFactor = 1.0
+	// no need of scaling if height is zero
+	if info.Height <= 0 {
+		return nil	
 	}
+	scaleFactor := float64(info.Height) / float64(img.GetImageWidth())
 	return img.ScaleImage(uint(float64(img.GetImageWidth())*scaleFactor), uint(float64(img.GetImageHeight())*scaleFactor))
 }
 
@@ -69,22 +63,17 @@ func GetImage(info *ImageInfo) (*imagick.MagickWand, error) {
 	img := imagick.NewMagickWand()
 	err := img.ReadImage(info.Filename)
 
-	if info.Comment != "" {
-		img.CommentImage(info.Comment)
-	}
-
 	if err != nil {
 		return img, err
 	}
 
-	if info.Height == 0 {
-		return img, nil
+	if info.Comment != "" {
+		img.CommentImage(info.Comment)
 	}
-
-	if info.Ratio == 1.0 || info.Ratio == 0.0 {
+	// "no crop" can be specified with Ratio zero or one
+	if (info.Ratio == 1.0 || info.Ratio == 0.0) {
 		err = scaleImage(img, info)
-	} else {
-		//err = img.ResizeImage(uint(info.Width), uint(info.Height), imagick.FILTER_LANCZOS, 1.0)
+	} else { // Crop first and then scale, no problem if height is zero
 		err = cropScaleImage(img, info)
 	}
 	return img, err
