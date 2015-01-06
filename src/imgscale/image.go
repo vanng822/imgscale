@@ -7,7 +7,7 @@ import (
 type ImageInfo struct {
 	// full path to the image
 	Filename string
-	Height   int
+	Height   uint
 	Ratio    float64
 	Ext      string
 	Thumbnail bool

@@ -9,7 +9,7 @@ import (
 
 type Format struct {
 	Prefix    string
-	Height    int
+	Height    uint
 	Ratio     float64
 	Thumbnail bool
 }
