@@ -21,7 +21,7 @@ type Config struct {
 	Comment string
 }
 
-var supportedExts = map[string]string{"jpg": "image/jpg", "png": "image/png"}
+var supportedExts = map[string]string{"jpg": "image/jpeg", "png": "image/png"}
 
 type Handler struct {
 	Config        *Config
