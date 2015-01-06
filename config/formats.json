@@ -2,11 +2,11 @@
 	"Path": "./data",
 	"Prefix": "img",
 	"Formats": [
-		{"Prefix": "100x100", "Height": 100, "Ratio": 1.0},
-		{"Prefix": "66x100", "Height": 100, "Ratio": 0.67},
-		{"Prefix": "100x75", "Height": 75, "Ratio": 1.335},
-		{"Prefix": "originalx1", "Height": 0, "Ratio": 1.0},
-		{"Prefix": "original", "Height": 0, "Ratio": 0.0}
+		{"Prefix": "100x100", "Height": 1000, "Ratio": 1.0, "Thumbnail": false},
+		{"Prefix": "66x100", "Height": 100, "Ratio": 0.67, "Thumbnail": true},
+		{"Prefix": "100x75", "Height": 75, "Ratio": 1.335, "Thumbnail": true},
+		{"Prefix": "originalx1", "Height": 0, "Ratio": 1.0, "Thumbnail": false},
+		{"Prefix": "original", "Height": 0, "Ratio": 0.0, "Thumbnail": false}
 	],
 	"Exts": ["jpg", "png"],
 	"Comment": "Copyright"
