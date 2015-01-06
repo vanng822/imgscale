@@ -8,9 +8,10 @@ import (
 )
 
 type Format struct {
-	Prefix string
-	Height int
-	Ratio  float64
+	Prefix    string
+	Height    int
+	Ratio     float64
+	Thumbnail bool
 }
 
 type Config struct {
@@ -51,7 +52,7 @@ func (h *Handler) GetFormat(format string) *Format {
 
 func (h *Handler) GetImageInfo(format, filename, ext string) *ImageInfo {
 	f := h.GetFormat(format)
-	return &ImageInfo{fmt.Sprintf("%s/%s.%s", h.Config.Path, filename, ext), f.Height, f.Ratio, ext, h.Config.Comment}
+	return &ImageInfo{fmt.Sprintf("%s/%s.%s", h.Config.Path, filename, ext), f.Height, f.Ratio, ext, f.Thumbnail, h.Config.Comment}
 }
 
 func (h *Handler) Serve(res http.ResponseWriter, req *http.Request, info *ImageInfo) {

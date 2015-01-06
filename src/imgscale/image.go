@@ -10,6 +10,7 @@ type ImageInfo struct {
 	Height   int
 	Ratio    float64
 	Ext      string
+	Thumbnail bool
 	Comment  string
 }
 
@@ -44,7 +45,12 @@ func scaleImage(img *imagick.MagickWand, info *ImageInfo) error {
 		return nil	
 	}
 	scaleFactor := float64(info.Height) / float64(img.GetImageHeight())
-	return img.ScaleImage(uint(float64(img.GetImageWidth())*scaleFactor), uint(float64(img.GetImageHeight())*scaleFactor))
+	if info.Thumbnail {
+		return img.ThumbnailImage(uint(float64(img.GetImageWidth())*scaleFactor), uint(float64(img.GetImageHeight())*scaleFactor))
+	} else {
+		return img.ScaleImage(uint(float64(img.GetImageWidth())*scaleFactor), uint(float64(img.GetImageHeight())*scaleFactor))
+	}
+	
 }
 
 func cropImage(img *imagick.MagickWand, info *ImageInfo) error {
