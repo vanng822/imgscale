@@ -2,7 +2,7 @@
 	"Path": "./data",
 	"Prefix": "img",
 	"Formats": [
-		{"Prefix": "100x100", "Height": 1000, "Ratio": 1.0, "Thumbnail": false},
+		{"Prefix": "100x100", "Height": 100, "Ratio": 1.0, "Thumbnail": true},
 		{"Prefix": "66x100", "Height": 100, "Ratio": 0.67, "Thumbnail": true},
 		{"Prefix": "100x75", "Height": 75, "Ratio": 1.335, "Thumbnail": true},
 		{"Prefix": "originalx1", "Height": 0, "Ratio": 1.0, "Thumbnail": false},
