@@ -5,7 +5,8 @@ import (
 	"net/http"
 )
 
-func Middleware(config *Config) func(res http.ResponseWriter, req *http.Request) {
+func Middleware(filename string) func(res http.ResponseWriter, req *http.Request) {
+	config := LoadConfig(filename)
 	handler := Configure(config)
 	fmt.Println(handler.Path)
 	return func(res http.ResponseWriter, req *http.Request) {

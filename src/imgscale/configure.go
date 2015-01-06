@@ -1,11 +1,12 @@
 package imgscale
 
 import (
+	"encoding/json"
 	"fmt"
-	"strings"
+	"os"
 	"regexp"
+	"strings"
 )
-
 
 func Configure(config *Config) *Handler {
 	for _, ext := range config.Exts {
@@ -24,4 +25,19 @@ func Configure(config *Config) *Handler {
 	path := fmt.Sprintf("/%s/(?P<format>%s)/(?P<filename>.+)\\.(?P<ext>%s)", config.Prefix, strings.Join(prefixes, "|"), strings.Join(config.Exts, "|"))
 
 	return &Handler{Formats: formats, Path: path, Config: config, regexp: regexp.MustCompile(path), supportedExts: supportedExts}
+}
+
+func LoadConfig(filename string) *Config {
+	file, err := os.Open(filename)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+	decoder := json.NewDecoder(file)
+	conf := Config{}
+	err = decoder.Decode(&conf)
+	if err != nil {
+		panic(err)
+	}
+	return &conf
 }

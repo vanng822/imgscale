@@ -5,35 +5,16 @@ import (
 	"imgscale"
 	"fmt"
 	"github.com/go-martini/martini"
-	"os"
-	"encoding/json"
 )
 
-func ReadConfig(filename string) *imgscale.Config {
-	file, err := os.Open(filename)
-	if err != nil {
-		panic(err)
-	}
-	defer file.Close()
-	decoder := json.NewDecoder(file)
-	conf := imgscale.Config{}
-	err = decoder.Decode(&conf)
-	if err != nil {
-		panic(err)
-	}
-	return &conf
-}
-
 func main() {
-	config := ReadConfig("./config/formats.json")
-	fmt.Println(config)
 	// Martini
 	app := martini.Classic()
-	app.Use(imgscale.Middleware(config))
+	app.Use(imgscale.Middleware("./config/formats.json"))
 	http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8080), app)
 	// http.HandleFunc
 	/*
-	http.HandleFunc("/", middleware.Middleware(config))
+	http.HandleFunc("/", middleware.Middleware("./config/formats.json"))
 	http.ListenAndServe(fmt.Sprintf("%s:%d", "", 8080), nil)*/
 }
 
