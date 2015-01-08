@@ -6,6 +6,11 @@ Middleware/handler for scaling image in golang. Use for serving images in differ
 
 	go get github.com/gographics/imagick/imagick
 
+## Install 
+
+	go get github.com/vanng822/imgscale/imgscale
+
+
 ## Example
 
 	// Martini
@@ -13,6 +18,6 @@ Middleware/handler for scaling image in golang. Use for serving images in differ
 	app.Use(imgscale.Middleware("./config/formats.json"))
 	http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8080), app)
 	
-	// http.HandleFunc
+	// Or http.HandleFunc
 	http.HandleFunc("/", middleware.Middleware("./config/formats.json"))
 	http.ListenAndServe(fmt.Sprintf("%s:%d", "", 8080), nil)
