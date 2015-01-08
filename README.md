@@ -1,12 +1,12 @@
-== imgscale ==
+## imgscale
 
 Middleware/handler for scaling image in golang. Use for serving images in different formats. Can use as middleware which is compitable with http.HandleFunc
 
-== Dependencies ==
+## Dependencies
 
 	go get github.com/gographics/imagick/imagick
 
-== Example ==
+## Example
 
 	// Martini
 	app := martini.Classic()
