@@ -25,7 +25,7 @@ Middleware/handler for scaling image in golang. Use for serving images in differ
 
 ## Try it out
 
-### Checkout
+### checkout
 	
 	git clone https://github.com/vanng822/imgscale.git
 	
