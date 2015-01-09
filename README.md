@@ -19,7 +19,7 @@ Middleware/handler for scaling image in golang. Use for serving images in differ
 	http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8080), app)
 	
 	// Or http.HandleFunc
-	http.HandleFunc("/", middleware.Middleware("./config/formats.json"))
+	http.HandleFunc("/", imgscale.Middleware("./config/formats.json"))
 	http.ListenAndServe(fmt.Sprintf("%s:%d", "", 8080), nil)
 
 

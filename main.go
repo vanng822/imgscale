@@ -14,7 +14,7 @@ func main() {
 	http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8080), app)
 	// http.HandleFunc
 	/*
-	http.HandleFunc("/", middleware.Middleware(config))
+	http.HandleFunc("/", imgscale.Middleware(config))
 	http.ListenAndServe(fmt.Sprintf("%s:%d", "", 8080), nil)*/
 }
 
