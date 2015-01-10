@@ -52,7 +52,7 @@ func (h *Handler) GetFormat(format string) *Format {
 
 func (h *Handler) GetImageInfo(format, filename, ext string) *ImageInfo {
 	f := h.GetFormat(format)
-	return &ImageInfo{fmt.Sprintf("%s/%s.%s", h.Config.Path, filename, ext), f.Height, f.Ratio, ext, f.Thumbnail, h.Config.Comment}
+	return &ImageInfo{fmt.Sprintf("%s/%s.%s", h.Config.Path, filename, ext), f, ext, h.Config.Comment}
 }
 
 func (h *Handler) Serve(res http.ResponseWriter, req *http.Request, info *ImageInfo) {

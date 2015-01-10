@@ -7,10 +7,8 @@ import (
 type ImageInfo struct {
 	// full path to the image
 	Filename string
-	Height   uint
-	Ratio    float64
+	Format   *Format
 	Ext      string
-	Thumbnail bool
 	Comment  string
 }
 
@@ -41,20 +39,20 @@ func GetCropParams(imageWidth, imageHeight uint, ratio float64) *CropParams {
 
 func scaleImage(img *imagick.MagickWand, info *ImageInfo) error {
 	// no need of scaling if height is zero
-	if info.Height <= 0 {
-		return nil	
+	if info.Format.Height <= 0 {
+		return nil
 	}
-	scaleFactor := float64(info.Height) / float64(img.GetImageHeight())
-	if info.Thumbnail {
+	scaleFactor := float64(info.Format.Height) / float64(img.GetImageHeight())
+	if info.Format.Thumbnail {
 		return img.ThumbnailImage(uint(float64(img.GetImageWidth())*scaleFactor), uint(float64(img.GetImageHeight())*scaleFactor))
 	} else {
 		return img.ScaleImage(uint(float64(img.GetImageWidth())*scaleFactor), uint(float64(img.GetImageHeight())*scaleFactor))
 	}
-	
+
 }
 
 func cropImage(img *imagick.MagickWand, info *ImageInfo) error {
-	params := GetCropParams(img.GetImageWidth(), img.GetImageHeight(), info.Ratio)
+	params := GetCropParams(img.GetImageWidth(), img.GetImageHeight(), info.Format.Ratio)
 	return img.CropImage(params.Width, params.Height, params.X, params.Y)
 }
 
@@ -77,7 +75,7 @@ func GetImage(info *ImageInfo) (*imagick.MagickWand, error) {
 		img.CommentImage(info.Comment)
 	}
 	// No crop if zero
-	if (info.Ratio <= 0.0) {
+	if info.Format.Ratio <= 0.0 {
 		err = scaleImage(img, info)
 	} else { // Crop first and then scale, no problem if height is zero
 		err = cropScaleImage(img, info)
