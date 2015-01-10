@@ -13,14 +13,20 @@ Middleware/handler for scaling image in golang. Use for serving images in differ
 
 ## Example
 
+	// Negroni
+	n := negroni.New()
+	nh := imgscale.Configure("./config/formats.json")
+	n.UseHandler(nh)
+	go http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8081), n)
+
 	// Martini
 	app := martini.Classic()
-	app.Use(imgscale.Middleware("./config/formats.json"))
-	http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8080), app)
-	
-	// Or http.HandleFunc
-	http.HandleFunc("/", imgscale.Middleware("./config/formats.json"))
-	http.ListenAndServe(fmt.Sprintf("%s:%d", "", 8080), nil)
+	app.Use(imgscale.Configure("./config/formats.json").HandleFunc)
+	go http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8080), app)
+
+	// http.Handler
+	http.Handle("/", imgscale.Configure("./config/formats.json"))
+	http.ListenAndServe(fmt.Sprintf("%s:%d", "", 8082), nil)
 
 
 ## Try it out
