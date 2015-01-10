@@ -8,6 +8,21 @@ import (
 	"strings"
 )
 
+type Format struct {
+	Prefix    string
+	Height    uint
+	Ratio     float64
+	Thumbnail bool
+}
+
+type Config struct {
+	Path    string
+	Prefix  string
+	Formats []*Format
+	Exts    []string
+	Comment string
+}
+
 func Configure(config *Config) *Handler {
 	for _, ext := range config.Exts {
 		if _, ok := supportedExts[ext]; !ok {

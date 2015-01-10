@@ -7,21 +7,6 @@ import (
 	"strconv"
 )
 
-type Format struct {
-	Prefix    string
-	Height    uint
-	Ratio     float64
-	Thumbnail bool
-}
-
-type Config struct {
-	Path    string
-	Prefix  string
-	Formats []*Format
-	Exts    []string
-	Comment string
-}
-
 var supportedExts = map[string]string{"jpg": "image/jpeg", "png": "image/png"}
 
 type Handler struct {
