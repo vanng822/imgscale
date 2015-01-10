@@ -9,11 +9,10 @@ import (
 
 var supportedExts = map[string]string{"jpg": "image/jpeg", "png": "image/png"}
 
+// http.Handler
 type Handler interface {
-	// http.Handler
-	ServeHTTP(res http.ResponseWriter, req *http.Request)
 	// http.HandleFunc
-	HandleFunc(res http.ResponseWriter, req *http.Request)
+	ServeHTTP(res http.ResponseWriter, req *http.Request)
 }
 
 type handler struct {
@@ -24,11 +23,14 @@ type handler struct {
 }
 
 func (h *handler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
-	h.handle(res, req)
-}
-
-func (h *handler) HandleFunc(res http.ResponseWriter, req *http.Request) {
-	h.handle(res, req)
+	if req.Method != "GET" && req.Method != "HEAD" {
+		return
+	}
+	matched, info := h.match(req.URL.RequestURI())
+	if !matched {
+		return
+	}
+	h.serve(res, req, info)
 }
 
 func (h *handler) match(url string) (bool, *ImageInfo) {
@@ -63,15 +65,4 @@ func (h *handler) serve(res http.ResponseWriter, req *http.Request, info *ImageI
 		res.Header().Set("Content-Length", strconv.Itoa(len(imgData)))
 		res.Write(imgData)
 	}
-}
-
-func (h *handler) handle(res http.ResponseWriter, req *http.Request) {
-	if req.Method != "GET" && req.Method != "HEAD" {
-		return
-	}
-	matched, info := h.match(req.URL.RequestURI())
-	if !matched {
-		return
-	}
-	h.serve(res, req, info)
 }

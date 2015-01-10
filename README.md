@@ -1,6 +1,6 @@
 ## imgscale
 
-Middleware/handler for scaling image in golang. Use for serving images in different formats. Can use as middleware which is compitable with http.HandleFunc
+Middleware/handler for scaling image in golang. Use for serving images in different formats. Can use as middleware which is compitable with http.Handler
 
 ## Dependencies
 
@@ -15,13 +15,12 @@ Middleware/handler for scaling image in golang. Use for serving images in differ
 
 	// Negroni
 	n := negroni.New()
-	nh := imgscale.Configure("./config/formats.json")
-	n.UseHandler(nh)
+	n.UseHandler(imgscale.Configure("./config/formats.json"))
 	go http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8081), n)
 
 	// Martini
 	app := martini.Classic()
-	app.Use(imgscale.Configure("./config/formats.json").HandleFunc)
+	app.Use(imgscale.Configure("./config/formats.json").ServeHTTP)
 	go http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8080), app)
 
 	// http.Handler
