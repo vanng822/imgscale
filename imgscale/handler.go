@@ -5,14 +5,21 @@ import (
 	"net/http"
 	"regexp"
 	"strconv"
+	"github.com/gographics/imagick/imagick"
 )
 
 var supportedExts = map[string]string{"jpg": "image/jpeg", "png": "image/png"}
+
+type ImageProvider interface {
+	Fetch(info *ImageInfo) (*imagick.MagickWand, error)
+}
 
 // http.Handler
 type Handler interface {
 	// http.HandleFunc
 	ServeHTTP(res http.ResponseWriter, req *http.Request)
+	// For setting own image provider, such as remote storage
+	SetImageProvider(provider ImageProvider)
 }
 
 type handler struct {
@@ -20,6 +27,7 @@ type handler struct {
 	formats       map[string]*Format
 	regexp        *regexp.Regexp
 	supportedExts map[string]string
+	imageProvider ImageProvider
 }
 
 func (h *handler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
@@ -31,6 +39,10 @@ func (h *handler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	h.serve(res, req, info)
+}
+
+func (h *handler) SetImageProvider(imageProvider ImageProvider) {
+	h.imageProvider = imageProvider
 }
 
 func (h *handler) match(url string) (bool, *ImageInfo) {
@@ -53,12 +65,18 @@ func (h *handler) getFormat(format string) *Format {
 
 func (h *handler) getImageInfo(format, filename, ext string) *ImageInfo {
 	f := h.getFormat(format)
-	return &ImageInfo{fmt.Sprintf("%s/%s.%s", h.config.Path, filename, ext), f, ext, h.config.Comment}
+	return &ImageInfo{h.config.Path, fmt.Sprintf("%s.%s", filename, ext), f, ext, h.config.Comment}
 }
 
 func (h *handler) serve(res http.ResponseWriter, req *http.Request, info *ImageInfo) {
-	img, err := GetImage(info)
-	defer img.Destroy()
+	img, err := h.imageProvider.Fetch(info)
+	if img != nil {
+		defer img.Destroy()
+	}
+	if err != nil {
+		return
+	}
+	err = ProcessImage(img, info)
 	if err == nil {
 		imgData := img.GetImageBlob()
 		res.Header().Set("Content-Type", h.getContentType(info.Ext))

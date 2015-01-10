@@ -38,8 +38,9 @@ func configure(config *Config) *handler {
 	}
 
 	path := fmt.Sprintf("/%s/(?P<format>%s)/(?P<filename>.+)\\.(?P<ext>%s)", config.Prefix, strings.Join(prefixes, "|"), strings.Join(config.Exts, "|"))
-
-	return &handler{formats: formats, config: config, regexp: regexp.MustCompile(path), supportedExts: supportedExts}
+	h := handler{formats: formats, config: config, regexp: regexp.MustCompile(path), supportedExts: supportedExts}
+	h.SetImageProvider(imageProviderFile{})
+	return &h
 }
 
 func LoadConfig(filename string) *Config {

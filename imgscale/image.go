@@ -1,11 +1,12 @@
 package imgscale
 
 import (
+	"fmt"
 	"github.com/gographics/imagick/imagick"
 )
 
 type ImageInfo struct {
-	// full path to the image
+	Path     string
 	Filename string
 	Format   *Format
 	Ext      string
@@ -63,14 +64,7 @@ func cropScaleImage(img *imagick.MagickWand, info *ImageInfo) error {
 	return scaleImage(img, info)
 }
 
-func GetImage(info *ImageInfo) (*imagick.MagickWand, error) {
-	img := imagick.NewMagickWand()
-	err := img.ReadImage(info.Filename)
-
-	if err != nil {
-		return img, err
-	}
-
+func ProcessImage(img *imagick.MagickWand, info *ImageInfo) (err error) {
 	if info.Comment != "" {
 		img.CommentImage(info.Comment)
 	}
@@ -80,5 +74,13 @@ func GetImage(info *ImageInfo) (*imagick.MagickWand, error) {
 	} else { // Crop first and then scale, no problem if height is zero
 		err = cropScaleImage(img, info)
 	}
+	return err
+}
+
+type imageProviderFile struct {}
+
+func (iprover imageProviderFile) Fetch(info *ImageInfo) (*imagick.MagickWand, error) {
+	img := imagick.NewMagickWand()
+	err := img.ReadImage(fmt.Sprintf("%s/%s", info.Path, info.Filename))
 	return img, err
 }
