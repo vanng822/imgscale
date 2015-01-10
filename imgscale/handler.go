@@ -54,8 +54,6 @@ func (h *handler) serve(res http.ResponseWriter, req *http.Request, info *ImageI
 		res.Header().Set("Content-Type", h.getContentType(info.Ext))
 		res.Header().Set("Content-Length", strconv.Itoa(len(imgData)))
 		res.Write(imgData)
-	} else {
-		panic(err)
 	}
 }
 
