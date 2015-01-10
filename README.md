@@ -35,11 +35,16 @@ Middleware/handler for scaling image in golang. Use for serving images in differ
 	go get github.com/gographics/imagick/imagick
 	go get github.com/vanng822/imgscale/imgscale
 	go get github.com/go-martini/martini
+	go get github.com/codegangsta/negroni
 	
 	
 ### run application
+
 	go run main.go
 
 ### browse it
 	
 	http://127.0.0.1:8080/img/100x100/kth.jpg
+	http://127.0.0.1:8081/img/100x100/kth.jpg
+	http://127.0.0.1:8082/img/100x100/kth.jpg
+	
