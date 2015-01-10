@@ -6,7 +6,6 @@ import (
 )
 
 type ImageInfo struct {
-	Path     string
 	Filename string
 	Format   *Format
 	Ext      string
@@ -77,10 +76,12 @@ func ProcessImage(img *imagick.MagickWand, info *ImageInfo) (err error) {
 	return err
 }
 
-type imageProviderFile struct {}
+type ImageProviderFile struct {
+	Path string
+}
 
-func (iprover imageProviderFile) Fetch(info *ImageInfo) (*imagick.MagickWand, error) {
+func (imageProvider ImageProviderFile) Fetch(info *ImageInfo) (*imagick.MagickWand, error) {
 	img := imagick.NewMagickWand()
-	err := img.ReadImage(fmt.Sprintf("%s/%s", info.Path, info.Filename))
+	err := img.ReadImage(fmt.Sprintf("%s/%s", imageProvider.Path, info.Filename))
 	return img, err
 }

@@ -65,7 +65,7 @@ func (h *handler) getFormat(format string) *Format {
 
 func (h *handler) getImageInfo(format, filename, ext string) *ImageInfo {
 	f := h.getFormat(format)
-	return &ImageInfo{h.config.Path, fmt.Sprintf("%s.%s", filename, ext), f, ext, h.config.Comment}
+	return &ImageInfo{fmt.Sprintf("%s.%s", filename, ext), f, ext, h.config.Comment}
 }
 
 func (h *handler) serve(res http.ResponseWriter, req *http.Request, info *ImageInfo) {

@@ -39,7 +39,7 @@ func configure(config *Config) *handler {
 
 	path := fmt.Sprintf("/%s/(?P<format>%s)/(?P<filename>.+)\\.(?P<ext>%s)", config.Prefix, strings.Join(prefixes, "|"), strings.Join(config.Exts, "|"))
 	h := handler{formats: formats, config: config, regexp: regexp.MustCompile(path), supportedExts: supportedExts}
-	h.SetImageProvider(imageProviderFile{})
+	h.SetImageProvider(ImageProviderFile{Path: config.Path})
 	return &h
 }
 

@@ -7,21 +7,22 @@ import (
 )
 
 func TestGetImageWrongFile(t *testing.T) {
-	provider := imageProviderFile{}
 	path, _ := filepath.Abs("./data/")
+	provider := ImageProviderFile{path}
+	
 	filename := "kth.jpg"
 	f := &Format{Prefix: "100x100", Height: 100, Ratio: 1.0, Thumbnail: true}
-	info := &ImageInfo{path, filename, f, "jpg", ""}
+	info := &ImageInfo{filename, f, "jpg", ""}
 	_, err := provider.Fetch(info)
 	assert.Error(t, err)
 }
 
 func TestGetImageScaleOK(t *testing.T) {
-	provider := imageProviderFile{}
 	path, _ := filepath.Abs("../data/")
+	provider := ImageProviderFile{path}
 	filename := "kth.jpg"
 	f := &Format{Prefix: "133x100", Height: 100, Ratio: 0.0, Thumbnail: false}
-	info := &ImageInfo{path, filename, f, "jpg", ""}
+	info := &ImageInfo{filename, f, "jpg", ""}
 	img, err := provider.Fetch(info)
 	assert.Nil(t, err)
 	err = ProcessImage(img, info)
@@ -31,12 +32,12 @@ func TestGetImageScaleOK(t *testing.T) {
 }
 
 func TestGetImage100x100OK(t *testing.T) {
-	provider := imageProviderFile{}
 	path, _ := filepath.Abs("../data/")
+	provider := ImageProviderFile{path}
 	filename := "kth.jpg"
 	
 	f := &Format{Prefix: "100x100", Height: 100, Ratio: 1.0, Thumbnail: true}
-	info := &ImageInfo{path, filename, f, "jpg", ""}
+	info := &ImageInfo{filename, f, "jpg", ""}
 	img, err := provider.Fetch(info)
 	assert.Nil(t, err)
 	err = ProcessImage(img, info)
