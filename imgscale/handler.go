@@ -23,6 +23,14 @@ type handler struct {
 	supportedExts map[string]string
 }
 
+func (h *handler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
+	h.handle(res, req)
+}
+
+func (h *handler) HandleFunc(res http.ResponseWriter, req *http.Request) {
+	h.handle(res, req)
+}
+
 func (h *handler) match(url string) (bool, *ImageInfo) {
 	matches := h.regexp.FindStringSubmatch(url)
 
@@ -57,7 +65,7 @@ func (h *handler) serve(res http.ResponseWriter, req *http.Request, info *ImageI
 	}
 }
 
-func (h *handler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
+func (h *handler) handle(res http.ResponseWriter, req *http.Request) {
 	if req.Method != "GET" && req.Method != "HEAD" {
 		return
 	}
@@ -66,15 +74,4 @@ func (h *handler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	h.serve(res, req, info)
-}
-
-func (h *handler) HandleFunc(res http.ResponseWriter, req *http.Request) {
-	if req.Method != "GET" && req.Method != "HEAD" {
-		return
-	}
-	matched, info := h.match(req.URL.RequestURI())
-	if !matched {
-		return
-	}
-	h.serve(res, req, info)	
 }
