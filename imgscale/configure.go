@@ -23,7 +23,7 @@ type Config struct {
 	Comment string
 }
 
-func Configure(config *Config) *Handler {
+func configure(config *Config) *handler {
 	for _, ext := range config.Exts {
 		if _, ok := supportedExts[ext]; !ok {
 			panic(fmt.Sprintf("Extension '%s' not supported", ext))
@@ -39,7 +39,7 @@ func Configure(config *Config) *Handler {
 
 	path := fmt.Sprintf("/%s/(?P<format>%s)/(?P<filename>.+)\\.(?P<ext>%s)", config.Prefix, strings.Join(prefixes, "|"), strings.Join(config.Exts, "|"))
 
-	return &Handler{Formats: formats, Path: path, Config: config, regexp: regexp.MustCompile(path), supportedExts: supportedExts}
+	return &handler{formats: formats, config: config, regexp: regexp.MustCompile(path), supportedExts: supportedExts}
 }
 
 func LoadConfig(filename string) *Config {
