@@ -69,6 +69,10 @@ func (h *handler) getImageInfo(format, filename, ext string) *ImageInfo {
 }
 
 func (h *handler) serve(res http.ResponseWriter, req *http.Request, info *ImageInfo) {
+	if h.imageProvider == nil {
+		h.imageProvider = NewImageProviderFile(h.config.Path)
+	}
+	
 	img, err := h.imageProvider.Fetch(info)
 	if img != nil {
 		defer img.Destroy()
