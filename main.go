@@ -15,7 +15,7 @@ func main() {
 	n := negroni.New()
 	handler := imgscale.Configure("./config/formats.json")
 	// Example how to run a http image provider
-	handler.SetImageProvider(imgscale.NewImageProviderHTTP(""))
+	handler.SetImageProvider(imgscale.NewImageProviderHTTP("http://127.0.0.1:8080/img/original/"))
 	n.UseHandler(handler)
 	go http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8081), n)
 
