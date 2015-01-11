@@ -4,14 +4,19 @@ import (
 	"fmt"
 	"github.com/codegangsta/negroni"
 	"github.com/go-martini/martini"
+	"github.com/gographics/imagick/imagick"
 	"github.com/vanng822/imgscale/imgscale"
 	"net/http"
 )
 
 func main() {
-
+	imagick.Initialize()
+	defer imagick.Terminate()
 	n := negroni.New()
-	n.UseHandler(imgscale.Configure("./config/formats.json"))
+	handler := imgscale.Configure("./config/formats.json")
+	// Example how to run a http image provider
+	handler.SetImageProvider(imgscale.ImageProviderHTTP{BaseUrl: "http://127.0.0.1:8080/img/original"})
+	n.UseHandler(handler)
 	go http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8081), n)
 
 	// Martini

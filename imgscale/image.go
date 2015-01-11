@@ -3,6 +3,8 @@ package imgscale
 import (
 	"fmt"
 	"github.com/gographics/imagick/imagick"
+	"io/ioutil"
+	"net/http"
 )
 
 type ImageInfo struct {
@@ -83,5 +85,25 @@ type ImageProviderFile struct {
 func (imageProvider ImageProviderFile) Fetch(info *ImageInfo) (*imagick.MagickWand, error) {
 	img := imagick.NewMagickWand()
 	err := img.ReadImage(fmt.Sprintf("%s/%s", imageProvider.Path, info.Filename))
+	return img, err
+}
+
+type ImageProviderHTTP struct {
+	BaseUrl string
+}
+
+func (imageProvider ImageProviderHTTP) Fetch(info *ImageInfo) (*imagick.MagickWand, error) {
+	img := imagick.NewMagickWand()
+	resp, err := http.Get(fmt.Sprintf("%s/%s", imageProvider.BaseUrl, info.Filename))
+	if err != nil {
+		return img, err
+	}
+	defer resp.Body.Close()
+	
+	imgData, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return img, err
+	}
+	err = img.ReadImageBlob(imgData)
 	return img, err
 }
