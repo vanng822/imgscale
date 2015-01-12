@@ -11,14 +11,14 @@ type ImageInfo struct {
 	Comment  string
 }
 
-type CropParams struct {
-	Width  uint
-	Height uint
-	X      int
-	Y      int
+type cropParams struct {
+	width  uint
+	height uint
+	x      int
+	y      int
 }
 
-func GetCropParams(imageWidth, imageHeight uint, ratio float64) *CropParams {
+func getCropParams(imageWidth, imageHeight uint, ratio float64) *cropParams {
 	imageRatio := float64(imageWidth) / float64(imageHeight)
 	y := 0
 	x := 0
@@ -33,7 +33,7 @@ func GetCropParams(imageWidth, imageHeight uint, ratio float64) *CropParams {
 		y = int((imageHeight - height) / 2)
 	}
 
-	return &CropParams{Width: width, Height: height, X: x, Y: y}
+	return &cropParams{width: width, height: height, x: x, y: y}
 }
 
 func scaleImage(img *imagick.MagickWand, info *ImageInfo) error {
@@ -51,8 +51,8 @@ func scaleImage(img *imagick.MagickWand, info *ImageInfo) error {
 }
 
 func cropImage(img *imagick.MagickWand, info *ImageInfo) error {
-	params := GetCropParams(img.GetImageWidth(), img.GetImageHeight(), info.Format.Ratio)
-	return img.CropImage(params.Width, params.Height, params.X, params.Y)
+	params := getCropParams(img.GetImageWidth(), img.GetImageHeight(), info.Format.Ratio)
+	return img.CropImage(params.width, params.height, params.x, params.y)
 }
 
 func cropScaleImage(img *imagick.MagickWand, info *ImageInfo) error {
