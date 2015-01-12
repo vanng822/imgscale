@@ -14,8 +14,8 @@ func main() {
 	defer imagick.Terminate()
 	n := negroni.New()
 	handler := imgscale.Configure("./config/formats.json")
-	// Example how to run a http image provider
-	handler.SetImageProvider(imgscale.NewImageProviderHTTP("http://127.0.0.1:8080/img/original/"))
+	// Example how to run an arbitrary remote image provider
+	handler.SetImageProvider(imgscale.NewImageProviderHTTP(""))
 	n.UseHandler(handler)
 	go http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8081), n)
 
@@ -25,6 +25,9 @@ func main() {
 	go http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8080), app)
 
 	// http.Handler
-	http.Handle("/", imgscale.Configure("./config/formats.json"))
+	handler2 := imgscale.Configure("./config/formats.json")
+	// Example how to run an host limited remote image provider, can not run arbitrary here
+	handler2.SetImageProvider(imgscale.NewImageProviderHTTP("http://127.0.0.1:8080/img/original/"))
+	http.Handle("/", handler2)
 	http.ListenAndServe(fmt.Sprintf("%s:%d", "", 8082), nil)
 }

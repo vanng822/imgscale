@@ -52,6 +52,9 @@ func (h *handler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 	matched, info := h.match(req.URL.RequestURI())
 	if !matched {
 		return
+	} 
+	if h.validator != nil && h.validator.Validate(info.Filename) == false {
+		return
 	}
 	h.serve(res, req, info)
 }
@@ -70,11 +73,7 @@ func (h *handler) match(url string) (bool, *ImageInfo) {
 	if len(matches) == 0 {
 		return false, nil
 	}
-	info := h.getImageInfo(matches[1], matches[2], matches[3])
-	if h.validator != nil && h.validator.Validate(info.Filename) == false {
-		return false, nil
-	}
-	return true, info
+	return true, h.getImageInfo(matches[1], matches[2], matches[3])
 }
 
 func (h *handler) getContentType(ext string) string {
