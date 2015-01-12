@@ -52,6 +52,6 @@ Warning: image processing is very resource consuming. If you use this in product
 ### browse it
 	
 	http://127.0.0.1:8080/img/100x100/kth.jpg
-	http://127.0.0.1:8081/img/100x100/kth.jpg
+	http://127.0.0.1:8081/img/100x100/http://127.0.0.1:8080/img/original/kth.jpg
 	http://127.0.0.1:8082/img/100x100/kth.jpg
 	
