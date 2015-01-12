@@ -10,9 +10,9 @@ type imageProviderFile struct {
 	Path string
 }
 
-func (imageProvider imageProviderFile) Fetch(info *ImageInfo) (*imagick.MagickWand, error) {
+func (imageProvider imageProviderFile) Fetch(filename string) (*imagick.MagickWand, error) {
 	img := imagick.NewMagickWand()
-	err := img.ReadImage(fmt.Sprintf("%s/%s", imageProvider.Path, info.Filename))
+	err := img.ReadImage(fmt.Sprintf("%s/%s", imageProvider.Path, filename))
 	return img, err
 }
 

@@ -12,11 +12,11 @@ type imageProviderHTTP struct {
 	BaseUrl string
 }
 
-func (imageProvider imageProviderHTTP) Fetch(info *ImageInfo) (*imagick.MagickWand, error) {
+func (imageProvider imageProviderHTTP) Fetch(filename string) (*imagick.MagickWand, error) {
 	img := imagick.NewMagickWand()
 	// %s%s will make it possible for using on arbitrary remote image
 	// like http://127.0.0.1:8081/img/100x100/http://127.0.0.1:8080/img/original/kth.jpg
-	resp, err := http.Get(fmt.Sprintf("%s%s", imageProvider.BaseUrl, info.Filename))
+	resp, err := http.Get(fmt.Sprintf("%s%s", imageProvider.BaseUrl, filename))
 	if err != nil {
 		return img, err
 	}

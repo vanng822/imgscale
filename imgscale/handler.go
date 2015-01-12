@@ -67,7 +67,7 @@ func (h *handler) serve(res http.ResponseWriter, req *http.Request, info *ImageI
 		h.imageProvider = NewImageProviderFile(h.config.Path)
 	}
 
-	img, err := h.imageProvider.Fetch(info)
+	img, err := h.imageProvider.Fetch(info.Filename)
 	if img != nil {
 		defer img.Destroy()
 	}

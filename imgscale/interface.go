@@ -6,7 +6,7 @@ import (
 )
 
 type ImageProvider interface {
-	Fetch(info *ImageInfo) (*imagick.MagickWand, error)
+	Fetch(filename string) (*imagick.MagickWand, error)
 }
 
 type Validator interface {
