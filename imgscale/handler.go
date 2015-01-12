@@ -2,39 +2,12 @@ package imgscale
 
 import (
 	"fmt"
-	"github.com/gographics/imagick/imagick"
 	"net/http"
 	"regexp"
 	"strconv"
-	"strings"
 )
 
 var supportedExts = map[string]string{"jpg": "image/jpeg", "png": "image/png"}
-
-type ImageProvider interface {
-	Fetch(info *ImageInfo) (*imagick.MagickWand, error)
-}
-
-type Validator interface {
-	// Name of the image, ie everything after "<prefix>/<format>/"
-	Validate(filename string) bool
-}
-
-type defaultValidator struct {}
-
-func (v defaultValidator) Validate(filename string) bool {
-	return strings.Index(filename, "..") == -1
-}
-
-// http.Handler
-type Handler interface {
-	// http.HandleFunc
-	ServeHTTP(res http.ResponseWriter, req *http.Request)
-	// For setting own image provider, such as remote storage
-	SetImageProvider(provider ImageProvider)
-	// For setting validator of filename/name of the image
-	SetValidator(validator Validator)
-}
 
 type handler struct {
 	config        *Config
