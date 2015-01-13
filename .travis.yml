@@ -1,0 +1,14 @@
+language: golang
+
+go:
+  - 1.4
+
+before_install:
+  - sudo apt-get install libmagickwand-dev
+
+
+install:
+  - go get github.com/gographics/imagick/imagick
+  - go get github.com/vanng822/imgscale/imgscale
+
+script: cd imgscale && go test -v 
