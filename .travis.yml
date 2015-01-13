@@ -9,7 +9,7 @@ before_install:
 
 install:
   - pkg-config --cflags --libs MagickWand
-  - go get github.com/gographics/imagick/imagick
-  - go get github.com/vanng822/imgscale/imgscale
+  - export GOPATH=$(pwd) && go get github.com/gographics/imagick/imagick
+  - export GOPATH=$(pwd) && go get github.com/vanng822/imgscale/imgscale
 
 script: cd imgscale && go test -v 
