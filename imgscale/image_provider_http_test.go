@@ -5,6 +5,7 @@ import (
 	"testing"
 	"net/http"
 	"net/http/httptest"
+	"fmt"
 )
 
 func TestHttpFetchOK(t *testing.T) {
@@ -12,7 +13,7 @@ func TestHttpFetchOK(t *testing.T) {
 		http.ServeFile(w, r, "../data/kth.jpg")
 	}))
 	defer ts.Close()
-	
+	fmt.Println(ts.URL)
 	provider := NewImageProviderHTTP("")
 	img, err := provider.Fetch(ts.URL)
 	defer img.Destroy()
