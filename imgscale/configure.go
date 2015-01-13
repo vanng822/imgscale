@@ -33,6 +33,9 @@ func configure(config *Config) *handler {
 	prefixes := make([]string, len(config.Formats))
 	formats := make(map[string]*Format)
 	for i, format := range config.Formats {
+		if _, exists := formats[format.Prefix]; exists {
+			panic(fmt.Sprintf("You can not have same prefix '%s' for 2 different formats", format.Prefix))
+		}
 		prefixes[i] = format.Prefix
 		formats[format.Prefix] = format
 	}
