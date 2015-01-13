@@ -59,6 +59,9 @@ func (h *handler) getFormat(format string) *Format {
 
 func (h *handler) getImageInfo(format, filename, ext string) *ImageInfo {
 	f := h.getFormat(format)
+	if f == nil {
+		panic(fmt.Sprintf("Could not find any format configured for '%s'", format))
+	}
 	return &ImageInfo{fmt.Sprintf("%s.%s", filename, ext), f, ext, h.config.Comment}
 }
 
