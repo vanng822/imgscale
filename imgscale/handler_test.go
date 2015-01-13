@@ -3,12 +3,13 @@ package imgscale
 import (
 	"github.com/stretchr/testify/assert"
 	"testing"
-	//"net/http"
+	"net/http"
+	"net/http/httptest"
 )
 
 func getHandler() *handler {
 	config := &Config{}
-	config.Path = "./"
+	config.Path = "../data"
 	config.Prefix = "img"
 	config.Exts = []string{"jpg", "png"}
 	config.Formats = append(config.Formats, &Format{Prefix: "100x100", Height: 100, Ratio: 1.0, Thumbnail: true})
@@ -77,3 +78,35 @@ func TestGetImageInfoPanics(t *testing.T) {
 		handler.getImageInfo("None", "kth", "jpg")
 	})
 }
+
+
+func TestServeHTTPOK(t *testing.T) {
+	handler := getHandler()
+	req, err := http.NewRequest("GET", "http://127.0.0.1:8080/img/original/kth.jpg", nil)
+	assert.Nil(t, err)
+	w := httptest.NewRecorder()
+	handler.ServeHTTP(w, req)
+	assert.Equal(t, w.Code, 200)
+	assert.Equal(t, w.Body.Len(), 28611)
+	assert.Equal(t, w.Header().Get("Content-Type"), "image/jpeg")
+	assert.Equal(t, w.Header().Get("Content-Length"), "28611")
+}
+
+func TestServeHTTPFalseFormat(t *testing.T) {
+	handler := getHandler()
+	req, err := http.NewRequest("GET", "http://example.com/foo", nil)
+	assert.Nil(t, err)
+	w := httptest.NewRecorder()
+	handler.ServeHTTP(w, req)
+	assert.Equal(t, w.Body.Len(), 0)
+}
+
+func TestServeHTTPFalseMethod(t *testing.T) {
+	handler := getHandler()
+	req, err := http.NewRequest("POST", "http://127.0.0.1:8080/img/original/kth.jpg", nil)
+	assert.Nil(t, err)
+	w := httptest.NewRecorder()
+	handler.ServeHTTP(w, req)
+	assert.Equal(t, w.Body.Len(), 0)
+}
+
