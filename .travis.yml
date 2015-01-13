@@ -8,7 +8,7 @@ before_install:
 
 
 install:
-  - go get github.com/gographics/imagick/imagick
+  - go build -tags no_pkgconfig github.com/gographics/imagick/imagick
   - go get github.com/vanng822/imgscale/imgscale
 
 script: cd imgscale && go test -v 
