@@ -1,7 +1,7 @@
 // Package imagscale is middleware handler for scaling image in golang. Use for serving images in different predefined formats.
 //
 //
-//  package main
+//	package main
 //	
 //	import (
 //		"fmt"
