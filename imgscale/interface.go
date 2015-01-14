@@ -7,7 +7,7 @@ import (
 
 /*
 	ImageProvider implements image fetching and provide the image source
-	for the handler to serve to the request. There are 2 providers available
+	for the handler to serve the request. There are 2 providers available
 	One for local filesystem imageProviderFile and one for remote file
 	using http GET imageProviderHTTP
 */

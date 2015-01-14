@@ -18,7 +18,7 @@ func (imageProvider imageProviderFile) Fetch(filename string) (*imagick.MagickWa
 
 /*
 	NewImageProviderFile returns an instance of imageProviderFile
-	the path is required and should point folder where images are located
+	the path is required and should point to folder where images are located
 */
 func NewImageProviderFile(path string) ImageProvider {
 	if path == "" {
