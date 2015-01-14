@@ -27,7 +27,7 @@ Warning: image processing is very resource consuming. If you use this in product
 
 	// http.Handler
 	http.Handle("/", imgscale.Configure("./config/formats.json"))
-	http.ListenAndServe(fmt.Sprintf("%s:%d", "", 8082), nil)
+	http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8082), nil)
 
 ## GoDoc
 

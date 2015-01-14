@@ -33,6 +33,6 @@
 //		// Example how to run an host limited remote image provider, can not run arbitrary here
 //		handler2.SetImageProvider(imgscale.NewImageProviderHTTP("http://127.0.0.1:8080/img/original/"))
 //		http.Handle("/", handler2)
-//		http.ListenAndServe(fmt.Sprintf("%s:%d", "", 8082), nil)
+//		http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8082), nil)
 //	}
 package imgscale
