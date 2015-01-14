@@ -28,31 +28,22 @@ import (
 	Negroni middleware:
 	
 		n := negroni.New()
-		
 		handler := imgscale.Configure("./config/formats.json")
-		
 		handler.SetImageProvider(imgscale.NewImageProviderHTTP(""))
-		
 		n.UseHandler(handler)
-		
 		http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8081), n)
 
 	Martini middleware:
 	
 		app := martini.Classic()
-		
 		app.Use(imgscale.Configure("./config/formats.json").ServeHTTP)
-		
 		http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8080), app)
 
-	http.Handler:
+	http.Handle:
 	
 		handler := imgscale.Configure("./config/formats.json")
-		
 		handler.SetImageProvider(imgscale.NewImageProviderHTTP("http://127.0.0.1:8080/img/original/"))
-		
 		http.Handle("/", handler)
-		
 		http.ListenAndServe(fmt.Sprintf("%s:%d", "", 8082), nil)
 
 */
