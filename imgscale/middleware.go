@@ -23,7 +23,7 @@ import (
 		}
 	
 	
-	The return handler could use as middleware handler
+	The returned handler could use as middleware handler
 	
 	Negroni middleware:
 	
