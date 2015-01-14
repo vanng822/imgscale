@@ -62,6 +62,10 @@ func cropScaleImage(img *imagick.MagickWand, info *ImageInfo) error {
 	return scaleImage(img, info)
 }
 
+/*
+	ProcessImage will crop/scale image to dimension specified in ImageInfo
+	
+*/
 func ProcessImage(img *imagick.MagickWand, info *ImageInfo) (err error) {
 	if info.Comment != "" {
 		img.CommentImage(info.Comment)

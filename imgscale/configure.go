@@ -8,6 +8,16 @@ import (
 	"strings"
 )
 
+/*
+	Prefix: use in the url to identify the format
+	
+	Height: the target height
+	
+	Ratio: zero for keeping ratio
+	
+	Thumbnail: true to use thumbnail feature in imagemagick, it is quick and optimized but you loose meta data
+	
+*/
 type Format struct {
 	Prefix    string
 	Height    uint
@@ -15,6 +25,18 @@ type Format struct {
 	Thumbnail bool
 }
 
+/*
+	Path: path of the folder which contains images
+	
+	Prefix: use as image path indicator in url
+	
+	Formats: list of Format
+	
+	Exts: allow extensions, only jpg and png available
+	
+	Comment: will store in meta data if specified
+	
+*/
 type Config struct {
 	Path    string
 	Prefix  string
