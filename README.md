@@ -29,6 +29,10 @@ Warning: image processing is very resource consuming. If you use this in product
 	http.Handle("/", imgscale.Configure("./config/formats.json"))
 	http.ListenAndServe(fmt.Sprintf("%s:%d", "", 8082), nil)
 
+## GoDoc
+
+[![GoDoc](https://godoc.org/github.com/vanng822/imgscale/imgscale?status.svg)](https://godoc.org/github.com/vanng822/imgscale/imgscale)
+
 
 ## Try it out
 
