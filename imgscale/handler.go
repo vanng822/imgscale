@@ -5,9 +5,10 @@ import (
 	"net/http"
 	"regexp"
 	"strconv"
+	"strings"
 )
 
-var supportedExts = map[string]string{"jpg": "image/jpeg", "png": "image/png"}
+var supportedExts = map[string]string{"jpg": "image/jpeg", "jpeg": "image/jpeg", "png": "image/png"}
 
 type handler struct {
 	config        *Config
@@ -62,7 +63,7 @@ func (h *handler) getImageInfo(format, filename, ext string) *ImageInfo {
 	if f == nil {
 		panic(fmt.Sprintf("Could not find any format configured for '%s'", format))
 	}
-	return &ImageInfo{fmt.Sprintf("%s.%s", filename, ext), f, ext, h.config.Comment}
+	return &ImageInfo{fmt.Sprintf("%s.%s", filename, ext), f, strings.ToLower(ext), h.config.Comment}
 }
 
 func (h *handler) serve(res http.ResponseWriter, req *http.Request, info *ImageInfo) {

@@ -11,7 +11,7 @@ func getHandler() *handler {
 	config := &Config{}
 	config.Path = "../data"
 	config.Prefix = "img"
-	config.Exts = []string{"jpg", "png"}
+	config.Exts = []string{"jpg", "png", "jpeg"}
 	config.Separator = "/"
 	config.Formats = append(config.Formats, &Format{Prefix: "100x100", Height: 100, Ratio: 1.0, Thumbnail: true})
 	config.Formats = append(config.Formats, &Format{Prefix: "original", Height: 0, Ratio: 0.0, Thumbnail: false})
@@ -22,7 +22,7 @@ func getHandlerDash() *handler {
 	config := &Config{}
 	config.Path = "../data"
 	config.Prefix = "img"
-	config.Exts = []string{"jpg", "png"}
+	config.Exts = []string{"jpg", "png", "jpeg"}
 	config.Separator = "-"
 	config.Formats = append(config.Formats, &Format{Prefix: "100x100", Height: 100, Ratio: 1.0, Thumbnail: true})
 	config.Formats = append(config.Formats, &Format{Prefix: "original", Height: 0, Ratio: 0.0, Thumbnail: false})
@@ -40,6 +40,11 @@ func TestHandlerMatchTrue(t *testing.T) {
 	assert.True(t, matched2)
 	assert.Equal(t, info2.Ext, "png")
 	assert.Equal(t, info2.Format.Prefix, "100x100")
+	
+	matched3, info3 := handler.match("/img/100x100/kth.JPEG")
+	assert.True(t, matched3)
+	assert.Equal(t, info3.Ext, "jpeg")
+	assert.Equal(t, info3.Format.Prefix, "100x100")
 }
 
 func TestHandlerDashMatchTrue(t *testing.T) {

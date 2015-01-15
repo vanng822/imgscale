@@ -71,7 +71,7 @@ func configure(config *Config) *handler {
 	} else {
 		separator = "/"
 	}
-	path := fmt.Sprintf("^/%s/(?P<format>%s)%s(?P<filename>.+)\\.(?P<ext>%s)$", config.Prefix, strings.Join(prefixes, "|"), separator, strings.Join(config.Exts, "|"))
+	path := fmt.Sprintf("^/%s/(?P<format>%s)%s(?P<filename>.+)\\.(?i)(?P<ext>%s)$", config.Prefix, strings.Join(prefixes, "|"), separator, strings.Join(config.Exts, "|"))
 	h := handler{formats: formats, config: config, regexp: regexp.MustCompile(path), supportedExts: supportedExts}
 	h.SetValidator(defaultValidator{})
 	return &h
