@@ -68,8 +68,9 @@ func configure(config *Config) *handler {
 	return &h
 }
 
-// LoadConfig parse configuration file
-// It will panic if any error
+/*
+	LoadConfig parse configuration file. It will panic if any error
+*/
 func LoadConfig(filename string) *Config {
 	file, err := os.Open(filename)
 	if err != nil {
