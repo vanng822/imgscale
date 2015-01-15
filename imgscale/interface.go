@@ -18,13 +18,13 @@ type ImageProvider interface {
 /*
 	Validator implements the validation of the filename
 	The filename can identified as
-	baseurl/<image prefix>/<format prefix>/<filename>
+	baseurl/<image prefix>/<format prefix><separator><filename>
 	An example is
 	http://127.0.0.1:8080/img/original/kth.jpg
 	and filename is kth.jpg
 */
 type Validator interface {
-	// Name of the image, ie everything after "<prefix>/<format>/"
+	// Name of the image, ie everything after "<prefix>/<format><separator>"
 	Validate(filename string) bool
 }
 

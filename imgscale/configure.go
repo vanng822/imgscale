@@ -30,6 +30,8 @@ type Format struct {
 	
 	Prefix: use as image path indicator in url
 	
+	Separator: separator between format prefix and filename
+	
 	Formats: list of Format
 	
 	Exts: allow extensions, only jpg and png available
@@ -40,6 +42,7 @@ type Format struct {
 type Config struct {
 	Path    string
 	Prefix  string
+	Separator string
 	Formats []*Format
 	Exts    []string
 	Comment string
@@ -61,8 +64,14 @@ func configure(config *Config) *handler {
 		prefixes[i] = format.Prefix
 		formats[format.Prefix] = format
 	}
-
-	path := fmt.Sprintf("/%s/(?P<format>%s)/(?P<filename>.+)\\.(?P<ext>%s)", config.Prefix, strings.Join(prefixes, "|"), strings.Join(config.Exts, "|"))
+	var separator string
+	
+	if config.Separator != "" {
+		separator = config.Separator
+	} else {
+		separator = "/"
+	}
+	path := fmt.Sprintf("^/%s/(?P<format>%s)%s(?P<filename>.+)\\.(?P<ext>%s)$", config.Prefix, strings.Join(prefixes, "|"), separator, strings.Join(config.Exts, "|"))
 	h := handler{formats: formats, config: config, regexp: regexp.MustCompile(path), supportedExts: supportedExts}
 	h.SetValidator(defaultValidator{})
 	return &h

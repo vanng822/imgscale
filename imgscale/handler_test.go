@@ -12,6 +12,18 @@ func getHandler() *handler {
 	config.Path = "../data"
 	config.Prefix = "img"
 	config.Exts = []string{"jpg", "png"}
+	config.Separator = "/"
+	config.Formats = append(config.Formats, &Format{Prefix: "100x100", Height: 100, Ratio: 1.0, Thumbnail: true})
+	config.Formats = append(config.Formats, &Format{Prefix: "original", Height: 0, Ratio: 0.0, Thumbnail: false})
+	return configure(config)
+}
+
+func getHandlerDash() *handler {
+	config := &Config{}
+	config.Path = "../data"
+	config.Prefix = "img"
+	config.Exts = []string{"jpg", "png"}
+	config.Separator = "-"
 	config.Formats = append(config.Formats, &Format{Prefix: "100x100", Height: 100, Ratio: 1.0, Thumbnail: true})
 	config.Formats = append(config.Formats, &Format{Prefix: "original", Height: 0, Ratio: 0.0, Thumbnail: false})
 	return configure(config)
@@ -30,6 +42,27 @@ func TestHandlerMatchTrue(t *testing.T) {
 	assert.Equal(t, info2.Format.Prefix, "100x100")
 }
 
+func TestHandlerDashMatchTrue(t *testing.T) {
+	handler := getHandlerDash()
+	matched, info := handler.match("/img/original-kth.jpg")
+	assert.True(t, matched)
+	assert.Equal(t, info.Ext, "jpg")
+	assert.Equal(t, info.Format.Prefix, "original")
+	assert.Equal(t, info.Filename, "kth.jpg")
+	
+	matched2, info2 := handler.match("/img/100x100-kth.png")
+	assert.True(t, matched2)
+	assert.Equal(t, info2.Ext, "png")
+	assert.Equal(t, info2.Format.Prefix, "100x100")
+	assert.Equal(t, info2.Filename, "kth.png")
+	
+	matched3, info3 := handler.match("/img/100x100-kt-h.png")
+	assert.True(t, matched3)
+	assert.Equal(t, info3.Ext, "png")
+	assert.Equal(t, info3.Format.Prefix, "100x100")
+	assert.Equal(t, info3.Filename, "kt-h.png")
+}
+
 func TestHandlerMatchFalse(t *testing.T) {
 	handler := getHandler()
 	matched, info := handler.match("/img/kth.jpg")
@@ -37,6 +70,17 @@ func TestHandlerMatchFalse(t *testing.T) {
 	assert.Nil(t, info)
 	
 	matched2, info2 := handler.match("/img/none/kth.jpg")
+	assert.False(t, matched2)
+	assert.Nil(t, info2)
+}
+
+func TestHandlerDashMatchFalse(t *testing.T) {
+	handler := getHandlerDash()
+	matched, info := handler.match("/img/original/kth.jpg")
+	assert.False(t, matched)
+	assert.Nil(t, info)
+	
+	matched2, info2 := handler.match("/img/100x100/kth.png")
 	assert.False(t, matched2)
 	assert.Nil(t, info2)
 }

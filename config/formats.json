@@ -9,6 +9,7 @@
 		{"Prefix": "originalx1", "Height": 0, "Ratio": 1.0, "Thumbnail": false},
 		{"Prefix": "original", "Height": 0, "Ratio": 0.0, "Thumbnail": false}
 	],
+	"Separator": "/",
 	"Exts": ["jpg", "png"],
 	"Comment": "Copyright"
 }
