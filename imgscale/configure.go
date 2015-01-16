@@ -34,7 +34,7 @@ type Format struct {
 	
 	Formats: list of Format
 	
-	Exts: allow extensions, only jpg and png available
+	Exts: allow extensions, only jpg, jpeg and png available. Be aware that jpg and jpeg handled as different extension. 
 	
 	Comment: will store in meta data if specified
 	
