@@ -46,6 +46,7 @@ type Config struct {
 	Formats []*Format
 	Exts    []string
 	Comment string
+	AutoRotate bool
 }
 
 func configure(config *Config) *handler {

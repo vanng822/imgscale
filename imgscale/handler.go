@@ -26,7 +26,7 @@ func (h *handler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 	matched, info := h.match(req.URL.RequestURI())
 	if !matched {
 		return
-	} 
+	}
 	if h.validator != nil && h.validator.Validate(info.Filename) == false {
 		return
 	}
@@ -78,8 +78,12 @@ func (h *handler) serve(res http.ResponseWriter, req *http.Request, info *ImageI
 	if err != nil {
 		return
 	}
-	err = ProcessImage(img, info)
-	if err == nil {
+	if h.config.AutoRotate {
+		if err = AutoRotate(img); err != nil {
+			return
+		}
+	}
+	if err = ProcessImage(img, info); err == nil {
 		imgData := img.GetImageBlob()
 		res.Header().Set("Content-Type", h.getContentType(info.Ext))
 		res.Header().Set("Content-Length", strconv.Itoa(len(imgData)))

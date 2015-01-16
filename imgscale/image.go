@@ -3,13 +3,14 @@ package imgscale
 import (
 	"github.com/gographics/imagick/imagick"
 )
+
 /*
 	Filename: <baseUrl>/<image prefix>/<format prefix>/<Filename>
-	
+
 	Format: See Format
-	
+
 	Ext: for content type lookup. Should be jpg or png
-	
+
 	Comment: will be written in image meta data
 */
 type ImageInfo struct {
@@ -72,7 +73,7 @@ func cropScaleImage(img *imagick.MagickWand, info *ImageInfo) error {
 
 /*
 	ProcessImage will crop/scale image to dimension specified in ImageInfo
-	
+
 */
 func ProcessImage(img *imagick.MagickWand, info *ImageInfo) (err error) {
 	if info.Comment != "" {
@@ -85,4 +86,35 @@ func ProcessImage(img *imagick.MagickWand, info *ImageInfo) (err error) {
 		err = cropScaleImage(img, info)
 	}
 	return err
+}
+
+/*
+	AutoRotate will rotate the image to right "viewing perspective"
+	by inspecting orientation of the image. If unknown orientation
+	the image will leave unchanged
+*/
+func AutoRotate(img *imagick.MagickWand) (err error) {
+	switch img.GetImageOrientation() {
+	case imagick.ORIENTATION_TOP_RIGHT:
+		err = img.FlipImage()
+		img.SetImageOrientation(imagick.ORIENTATION_TOP_LEFT)
+		return
+	case imagick.ORIENTATION_BOTTOM_RIGHT:
+		err = img.RotateImage(imagick.NewPixelWand(), 180)
+		img.SetImageOrientation(imagick.ORIENTATION_TOP_LEFT)
+		return
+	case imagick.ORIENTATION_BOTTOM_LEFT:
+		err =  img.FlopImage()
+		img.SetImageOrientation(imagick.ORIENTATION_TOP_LEFT)
+		return
+	case imagick.ORIENTATION_RIGHT_TOP:
+		err =  img.RotateImage(imagick.NewPixelWand(), 90)
+		img.SetImageOrientation(imagick.ORIENTATION_TOP_LEFT)
+		return
+	case imagick.ORIENTATION_LEFT_BOTTOM:
+		err =  img.RotateImage(imagick.NewPixelWand(), 270)
+		img.SetImageOrientation(imagick.ORIENTATION_TOP_LEFT)
+		return
+	}
+	return
 }

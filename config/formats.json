@@ -11,5 +11,6 @@
 	],
 	"Separator": "/",
 	"Exts": ["jpg", "jpeg", "png"],
-	"Comment": "Copyright"
+	"Comment": "Copyright",
+	"AutoRotate": true
 }
