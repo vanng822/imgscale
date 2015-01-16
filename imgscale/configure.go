@@ -38,6 +38,8 @@ type Format struct {
 	
 	Comment: will store in meta data if specified
 	
+	AutoRotate: Autorotate image according to orientation stored in the image meta data
+	
 */
 type Config struct {
 	Path    string
