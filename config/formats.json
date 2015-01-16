@@ -10,6 +10,6 @@
 		{"Prefix": "original", "Height": 0, "Ratio": 0.0, "Thumbnail": false}
 	],
 	"Separator": "/",
-	"Exts": ["jpg", "png"],
+	"Exts": ["jpg", "jpeg", "png"],
 	"Comment": "Copyright"
 }
