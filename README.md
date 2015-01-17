@@ -31,7 +31,7 @@ Warning: image processing is very resource consuming. If you use this in product
 	// Martini
 	app := martini.Classic()
 	handler := imgscale.Configure("./config/formats.json")
-	defer nh2.Cleanup()
+	defer handler.Cleanup()
 	app.Use(handler.ServeHTTP)
 	go http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8080), app)
 
