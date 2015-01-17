@@ -2,6 +2,11 @@
 
 Middleware/handler for scaling image in golang. Use for serving images in different formats. Can use as middleware which is compitable with http.Handler
 
+* Crop & Scale
+* Autorotate
+* Watermark
+
+
 Warning: image processing is very resource consuming. If you use this in production you should put a cache server in front, such as Varnish.
 
 ## Dependencies
