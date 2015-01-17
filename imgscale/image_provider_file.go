@@ -7,12 +7,12 @@ import (
 )
 
 type imageProviderFile struct {
-	Path string
+	path string
 }
 
 func (imageProvider imageProviderFile) Fetch(filename string) (*imagick.MagickWand, error) {
 	img := imagick.NewMagickWand()
-	err := img.ReadImage(fmt.Sprintf("%s/%s", imageProvider.Path, filename))
+	err := img.ReadImage(fmt.Sprintf("%s/%s", imageProvider.path, filename))
 	return img, err
 }
 
@@ -26,6 +26,6 @@ func NewImageProviderFile(path string) ImageProvider {
 		// Should check if path readable here as well
 	}
 	provider := imageProviderFile{}
-	provider.Path = strings.TrimSuffix(path, "/")
+	provider.path = strings.TrimSuffix(path, "/")
 	return provider
 }

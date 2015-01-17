@@ -9,14 +9,14 @@ import (
 )
 
 type imageProviderHTTP struct {
-	BaseUrl string
+	baseUrl string
 }
 
 func (imageProvider imageProviderHTTP) Fetch(filename string) (*imagick.MagickWand, error) {
 	img := imagick.NewMagickWand()
 	// %s%s will make it possible for using on arbitrary remote image
 	// like http://127.0.0.1:8081/img/100x100/http://127.0.0.1:8080/img/original/kth.jpg
-	resp, err := http.Get(fmt.Sprintf("%s%s", imageProvider.BaseUrl, filename))
+	resp, err := http.Get(fmt.Sprintf("%s%s", imageProvider.baseUrl, filename))
 	if err != nil {
 		return img, err
 	}
@@ -43,7 +43,7 @@ func NewImageProviderHTTP(baseUrl string) ImageProvider {
 	provider := imageProviderHTTP{}
 	if baseUrl != "" {
 		// assume we have a valid base url
-		provider.BaseUrl = fmt.Sprintf("%s/", strings.TrimSuffix(baseUrl, "/"))
+		provider.baseUrl = fmt.Sprintf("%s/", strings.TrimSuffix(baseUrl, "/"))
 	}
 	return provider
 }
