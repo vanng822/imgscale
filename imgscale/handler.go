@@ -42,6 +42,11 @@ func (h *handler) SetValidator(validator Validator) {
 	h.validator = validator
 }
 
+func (h *handler) Cleanup() {
+	h.config.Watermark.img.Destroy()
+	imagick.Terminate()
+}
+
 func (h *handler) match(url string) (bool, *ImageInfo) {
 	matches := h.regexp.FindStringSubmatch(url)
 

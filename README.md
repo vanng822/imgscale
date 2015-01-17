@@ -21,18 +21,25 @@ Warning: image processing is very resource consuming. If you use this in product
 ## Example
 
 	// Negroni
-	n := negroni.New()
-	n.UseHandler(imgscale.Configure("./config/formats.json"))
-	go http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8081), n)
+	app := negroni.New()
+	handler := imgscale.Configure("./config/formats.json")
+	// Free C pointers and terminate MagickWand environment
+	defer handler.Cleanup()
+	n.UseHandler(handler)
+	go http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8080), app)
 
 	// Martini
 	app := martini.Classic()
-	app.Use(imgscale.Configure("./config/formats.json").ServeHTTP)
+	handler := imgscale.Configure("./config/formats.json")
+	defer nh2.Cleanup()
+	app.Use(handler.ServeHTTP)
 	go http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8080), app)
 
 	// http.Handler
-	http.Handle("/", imgscale.Configure("./config/formats.json"))
-	http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8082), nil)
+	handler := imgscale.Configure("./config/formats.json")
+	defer handler.Cleanup()
+	http.Handle("/", handler)
+	http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8080), nil)
 
 ## GoDoc
 

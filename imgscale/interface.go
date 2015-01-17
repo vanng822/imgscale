@@ -33,9 +33,9 @@ type Validator interface {
 	Handler.ServeHTTP can use similar to http.HandleFunc in case frameworks support
 	only this.
 	
-	Beside that Handler has 2 methods, Handler.SetValidator for setting own validation of the filename
-	Handler.SetImageProvider is suitable when you have customized image provider. Default is
-	imageProviderFile
+	Beside that Handler has 3 methods, Handler.SetValidator for setting own validation of the filename
+	Handler.SetImageProvider is suitable when you have customized image provider, default is
+	imageProviderFile. And the last method Handler.Cleanup should always call at the end (or defer) to cleanup C pointers.
 */
 type Handler interface {
 	// http.HandleFunc
@@ -44,5 +44,7 @@ type Handler interface {
 	SetImageProvider(provider ImageProvider)
 	// For setting validator of filename/name of the image
 	SetValidator(validator Validator)
+	// Free C pointers and terminate MagickWand environment
+	Cleanup()
 }
 

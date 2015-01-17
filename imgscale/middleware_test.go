@@ -10,3 +10,10 @@ func TestMiddlewareConfigure(t *testing.T) {
 	assert.NotNil(t, handler, nil)
 	assert.Implements(t, new(Handler), handler)
 }
+
+
+func TestMiddlewareConfigurePanic(t *testing.T) {
+	assert.Panics(t, func() {
+		Configure("../test_config/formats.json")
+	})
+}

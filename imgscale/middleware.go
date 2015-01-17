@@ -1,6 +1,7 @@
 package imgscale
 
 import (
+	"github.com/gographics/imagick/imagick"
 )
 
 /*
@@ -14,12 +15,15 @@ import (
 				{"Prefix": "100x100", "Height": 100, "Ratio": 1.0, "Thumbnail": true},
 				{"Prefix": "66x100", "Height": 100, "Ratio": 0.67, "Thumbnail": true},
 				{"Prefix": "100x75", "Height": 75, "Ratio": 1.335, "Thumbnail": true},
-				{"Prefix": "100x0", "Height": 100, "Ratio": 0.0, "Thumbnail": true},
-				{"Prefix": "originalx1", "Height": 0, "Ratio": 1.0, "Thumbnail": false},
-				{"Prefix": "original", "Height": 0, "Ratio": 0.0, "Thumbnail": false}
+				{"Prefix": "100x0", "Height": 100, "Ratio": 0.0, "Thumbnail": true, "Watermark": true},
+				{"Prefix": "originalx1", "Height": 0, "Ratio": 1.0, "Thumbnail": false, "Watermark": true},
+				{"Prefix": "original", "Height": 0, "Ratio": 0.0, "Thumbnail": false, "Watermark": true}
 			],
-			"Exts": ["jpg", "png"],
-			"Comment": "Copyright"
+			"Separator": "/",
+			"Exts": ["jpg", "jpeg", "png"],
+			"Comment": "Copyright",
+			"AutoRotate": true,
+			"Watermark": {"Filename": "./data/eyes.gif"}
 		}
 	
 	
@@ -27,23 +31,36 @@ import (
 	
 	Negroni middleware:
 	
-		n := negroni.New()
-		n.UseHandler(imgscale.Configure("./config/formats.json"))
-		http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8081), n)
+		app := negroni.New()
+		handler := imgscale.Configure("./config/formats.json")
+		defer handler.Cleanup()
+		n.UseHandler(handler)
+		http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8080), app)
 
 	Martini middleware:
 	
 		app := martini.Classic()
-		app.Use(imgscale.Configure("./config/formats.json").ServeHTTP)
+		handler := imgscale.Configure("./config/formats.json")
+		defer handler.Cleanup()
+		app.Use(handler.ServeHTTP)
 		http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8080), app)
 
 	http.Handle:
 	
-		http.Handle("/", imgscale.Configure("./config/formats.json"))
-		http.ListenAndServe(fmt.Sprintf("%s:%d", "", 8082), nil)
+		handler := imgscale.Configure("./config/formats.json")
+		defer handler.Cleanup()
+		http.Handle("/", handler)
+		http.ListenAndServe(fmt.Sprintf("%s:%d", "", 8080), nil)
 
 */
 func Configure(filename string) Handler {
+	imagick.Initialize()
+	defer func() {
+		if r := recover(); r != nil {
+			imagick.Terminate()
+            panic(r)
+        }
+	}()
 	config := LoadConfig(filename)
 	return configure(config)
 }
