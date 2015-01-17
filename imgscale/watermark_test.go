@@ -10,8 +10,7 @@ func TestWatermarkLoadOK(t *testing.T) {
 	watermark.Filename = "./test_data/eyes.gif"
 	watermark.load()
 	
-	assert.Equal(t, watermark.img.GetImageWidth(), 18)
-	assert.Equal(t, watermark.img.GetImageHeight(), 18)
+	assert.Equal(t, 127, len(watermark.data))
 }
 
 
