@@ -17,6 +17,8 @@ import (
 	
 	Thumbnail: true to use thumbnail feature in imagemagick, it is quick and optimized but you loose meta data
 	
+	Watermark: Indicate if watermark should apply on this format
+	
 */
 type Format struct {
 	Prefix    string
@@ -40,6 +42,8 @@ type Format struct {
 	Comment: will store in meta data if specified
 	
 	AutoRotate: Autorotate image according to orientation stored in the image meta data
+	
+	Watermark: this watermark is used when watermark on a format is enabled
 	
 */
 type Config struct {
