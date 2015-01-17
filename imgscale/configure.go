@@ -23,6 +23,7 @@ type Format struct {
 	Height    uint
 	Ratio     float64
 	Thumbnail bool
+	Watermark bool
 }
 
 /*
@@ -49,6 +50,7 @@ type Config struct {
 	Exts    []string
 	Comment string
 	AutoRotate bool
+	Watermark *Watermark
 }
 
 func configure(config *Config) *handler {
@@ -77,6 +79,10 @@ func configure(config *Config) *handler {
 	path := fmt.Sprintf("^/%s/(?P<format>%s)%s(?P<filename>.+)\\.(?i)(?P<ext>%s)$", config.Prefix, strings.Join(prefixes, "|"), separator, strings.Join(config.Exts, "|"))
 	h := handler{formats: formats, config: config, regexp: regexp.MustCompile(path), supportedExts: supportedExts}
 	h.SetValidator(defaultValidator{})
+	
+	if config.Watermark != nil && config.Watermark.Filename != "" {
+		config.Watermark.load()
+	}
 	return &h
 }
 

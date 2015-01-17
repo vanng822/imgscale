@@ -19,7 +19,7 @@ func TestGetImageWrongFile(t *testing.T) {
 }
 
 func TestGetImageScaleOK(t *testing.T) {
-	path, _ := filepath.Abs("../data/")
+	path, _ := filepath.Abs("./test_data/")
 	provider := imageProviderFile{path}
 	filename := "kth.jpg"
 	f := &Format{Prefix: "133x100", Height: 100, Ratio: 0.0, Thumbnail: false}
@@ -33,7 +33,7 @@ func TestGetImageScaleOK(t *testing.T) {
 }
 
 func TestGetImage100x100OK(t *testing.T) {
-	path, _ := filepath.Abs("../data/")
+	path, _ := filepath.Abs("./test_data/")
 	provider := NewImageProviderFile(path)
 	filename := "kth.jpg"
 	
@@ -48,7 +48,7 @@ func TestGetImage100x100OK(t *testing.T) {
 }
 
 func TestAutoRotate(t *testing.T) {
-	path, _ := filepath.Abs("../data/")
+	path, _ := filepath.Abs("./test_data/")
 	provider := NewImageProviderFile(path)
 	filename := "kth.jpg"
 	

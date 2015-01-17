@@ -6,7 +6,7 @@ import (
 )
 
 func TestFetchOK(t *testing.T) {
-	provider := NewImageProviderFile("../data")
+	provider := NewImageProviderFile("./test_data")
 	img, err := provider.Fetch("kth.jpg")
 	defer img.Destroy()
 	assert.Nil(t, err)
@@ -15,7 +15,7 @@ func TestFetchOK(t *testing.T) {
 }
 
 func TestFetchOKSlash(t *testing.T) {
-	provider := NewImageProviderFile("../data/")
+	provider := NewImageProviderFile("./test_data/")
 	img, err := provider.Fetch("kth.jpg")
 	defer img.Destroy()
 	assert.Nil(t, err)
@@ -24,7 +24,7 @@ func TestFetchOKSlash(t *testing.T) {
 }
 
 func TestFetchError(t *testing.T) {
-	provider := NewImageProviderFile("../data/")
+	provider := NewImageProviderFile("./test_data/")
 	img, err := provider.Fetch("kth2.jpg")
 	defer img.Destroy()
 	assert.NotNil(t, err)

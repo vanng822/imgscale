@@ -6,6 +6,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"github.com/gographics/imagick/imagick"
 )
 
 var supportedExts = map[string]string{"jpg": "image/jpeg", "jpeg": "image/jpeg", "png": "image/png"}
@@ -66,6 +67,13 @@ func (h *handler) getImageInfo(format, filename, ext string) *ImageInfo {
 	return &ImageInfo{fmt.Sprintf("%s.%s", filename, ext), f, strings.ToLower(ext), h.config.Comment}
 }
 
+func (h *handler) watermark(img *imagick.MagickWand) error {
+	if h.config.Watermark != nil {
+		return h.config.Watermark.mark(img)
+	}
+	return nil
+}
+
 func (h *handler) serve(res http.ResponseWriter, req *http.Request, info *ImageInfo) {
 	if h.imageProvider == nil {
 		h.imageProvider = NewImageProviderFile(h.config.Path)
@@ -83,7 +91,13 @@ func (h *handler) serve(res http.ResponseWriter, req *http.Request, info *ImageI
 			return
 		}
 	}
+
 	if err = ProcessImage(img, info); err == nil {
+		if info.Format.Watermark {
+			if err = h.watermark(img); err != nil {
+				return
+			}
+		}
 		imgData := img.GetImageBlob()
 		res.Header().Set("Content-Type", h.getContentType(info.Ext))
 		res.Header().Set("Content-Length", strconv.Itoa(len(imgData)))

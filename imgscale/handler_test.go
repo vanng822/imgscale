@@ -9,7 +9,7 @@ import (
 
 func getHandler() *handler {
 	config := &Config{}
-	config.Path = "../data"
+	config.Path = "./test_data"
 	config.Prefix = "img"
 	config.Exts = []string{"jpg", "png", "jpeg"}
 	config.Separator = "/"
@@ -20,7 +20,7 @@ func getHandler() *handler {
 
 func getHandlerDash() *handler {
 	config := &Config{}
-	config.Path = "../data"
+	config.Path = "./test_data"
 	config.Prefix = "img"
 	config.Exts = []string{"jpg", "png", "jpeg"}
 	config.Separator = "-"

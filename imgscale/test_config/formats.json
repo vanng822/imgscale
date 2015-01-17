@@ -1,5 +1,5 @@
 {
-	"Path": "./data",
+	"Path": "./test_data",
 	"Prefix": "img",
 	"Formats": [
 		{"Prefix": "100x100", "Height": 100, "Ratio": 1.0, "Thumbnail": true},
@@ -13,5 +13,5 @@
 	"Exts": ["jpg", "jpeg", "png"],
 	"Comment": "Copyright",
 	"AutoRotate": true,
-	"Watermark": {"Filename": "./data/eyes.gif"}
+	"Watermark": {"Filename": "./test_data/eyes.gif"}
 }

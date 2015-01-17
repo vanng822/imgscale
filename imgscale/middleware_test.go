@@ -6,7 +6,7 @@ import (
 )
 
 func TestMiddlewareConfigure(t *testing.T) {
-	handler := Configure("../config/formats.json")
+	handler := Configure("./test_config/formats.json")
 	assert.NotNil(t, handler, nil)
 	assert.Implements(t, new(Handler), handler)
 }
