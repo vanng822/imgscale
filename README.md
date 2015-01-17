@@ -11,6 +11,8 @@ Warning: image processing is very resource consuming. If you use this in product
 
 ## Dependencies
 
+You need to install ImageMagick first. Go to github.com/gographics/imagick for detail
+
 	go get github.com/gographics/imagick/imagick
 
 ## Install 
