@@ -34,7 +34,7 @@ import (
 		app := negroni.New()
 		handler := imgscale.Configure("./config/formats.json")
 		defer handler.Cleanup()
-		n.UseHandler(handler)
+		app.UseHandler(handler)
 		http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8080), app)
 
 	Martini middleware:
