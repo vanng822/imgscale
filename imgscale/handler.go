@@ -2,11 +2,11 @@ package imgscale
 
 import (
 	"fmt"
+	"github.com/gographics/imagick/imagick"
 	"net/http"
 	"regexp"
 	"strconv"
 	"strings"
-	"github.com/gographics/imagick/imagick"
 )
 
 var supportedExts = map[string]string{"jpg": "image/jpeg", "jpeg": "image/jpeg", "png": "image/png"}
@@ -18,6 +18,7 @@ type handler struct {
 	supportedExts map[string]string
 	imageProvider ImageProvider
 	validator     Validator
+	cleanupDone   bool
 }
 
 func (h *handler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
@@ -43,8 +44,12 @@ func (h *handler) SetValidator(validator Validator) {
 }
 
 func (h *handler) Cleanup() {
+	if h.cleanupDone {
+		return
+	}
 	h.config.Watermark.img.Destroy()
 	imagick.Terminate()
+	h.cleanupDone = true
 }
 
 func (h *handler) match(url string) (bool, *ImageInfo) {
