@@ -2,7 +2,7 @@ package imgscale
 
 import (
 	"fmt"
-	"github.com/gographics/imagick/imagick"
+	"github.com/vanng822/imgscale/imagick"
 )
 
 type Watermark struct {

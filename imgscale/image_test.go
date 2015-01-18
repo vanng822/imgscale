@@ -2,7 +2,7 @@ package imgscale
 
 import (
 	"github.com/stretchr/testify/assert"
-	"github.com/gographics/imagick/imagick"
+	"github.com/vanng822/imgscale/imagick"
 	"path/filepath"
 	"testing"
 )

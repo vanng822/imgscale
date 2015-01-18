@@ -1,17 +1,14 @@
 language: golang
 
 go:
-  - 1.2
+  - 1.4
 
 before_install:
-  - sudo apt-get update
   - sudo apt-get install libmagickwand-dev
-  - sudo dpkg -s libmagickwand-dev
 
 
 install:
-  - pkg-config --cflags --libs MagickWand
-  - export GOPATH=$(pwd) && go get github.com/gographics/imagick/imagick
-  - export GOPATH=$(pwd) && go get github.com/vanng822/imgscale/imgscale
+  - go get github.com/vanng822/imgscale/imagick
+  - go get github.com/vanng822/imgscale/imgscale
 
 script: cd imgscale && go test -v 
