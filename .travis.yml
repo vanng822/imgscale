@@ -5,6 +5,7 @@ go:
 
 before_install:
   - sudo apt-get install libmagickwand-dev
+  - sudo dpkg -s libmagickwand-dev
 
 
 install:
