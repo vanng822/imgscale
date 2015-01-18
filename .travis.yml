@@ -10,5 +10,6 @@ before_install:
 install:
   - go get github.com/vanng822/imgscale/imagick
   - go get github.com/vanng822/imgscale/imgscale
+  - go get github.com/stretchr/testify/assert
 
 script: cd imgscale && go test -v 
