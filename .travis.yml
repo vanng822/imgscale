@@ -12,4 +12,6 @@ install:
   - go get github.com/vanng822/imgscale/imgscale
   - go get github.com/stretchr/testify/assert
 
-script: cd imgscale && go test -v 
+script:
+  - cd imagick && go test -v 
+  - cd imgscale && go test -v 
