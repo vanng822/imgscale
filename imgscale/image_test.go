@@ -25,6 +25,7 @@ func TestGetImageScaleOK(t *testing.T) {
 	f := &Format{Prefix: "133x100", Height: 100, Ratio: 0.0, Thumbnail: false}
 	info := &ImageInfo{filename, f, "jpg", ""}
 	img, err := provider.Fetch(info.Filename)
+	defer img.Destroy()
 	assert.Nil(t, err)
 	err = ProcessImage(img, info)
 	assert.Equal(t, 100, img.GetImageHeight())
@@ -40,6 +41,7 @@ func TestGetImage100x100OK(t *testing.T) {
 	f := &Format{Prefix: "100x100", Height: 100, Ratio: 1.0, Thumbnail: true}
 	info := &ImageInfo{filename, f, "jpg", ""}
 	img, err := provider.Fetch(info.Filename)
+	defer img.Destroy()
 	assert.Nil(t, err)
 	err = ProcessImage(img, info)
 	assert.Equal(t, 100, img.GetImageHeight())
@@ -55,6 +57,7 @@ func TestAutoRotate(t *testing.T) {
 	f := &Format{Prefix: "100x75", Height: 100, Ratio: 1.335, Thumbnail: true}
 	info := &ImageInfo{filename, f, "jpg", ""}
 	img, err := provider.Fetch(info.Filename)
+	defer img.Destroy()
 	assert.Nil(t, err)
 	rotateOrientations := make([]imagick.OrientationType, 0)
 	rotateOrientations = append(rotateOrientations, imagick.ORIENTATION_TOP_RIGHT)
