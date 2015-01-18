@@ -17,7 +17,7 @@ You need to install ImageMagick first.
 	
 	sudo port install ImageMagick
 
-### Homwbrew
+### Homebrew
 
 	brew install imagemagick
 	
