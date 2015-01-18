@@ -13,5 +13,6 @@ install:
   - go get github.com/stretchr/testify/assert
 
 script:
-  - cd imagick && go test -v 
+  - cd imagick && go test -v
+  - cd .. 
   - cd imgscale && go test -v 
