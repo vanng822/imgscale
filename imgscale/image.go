@@ -100,19 +100,25 @@ func AutoRotate(img *imagick.MagickWand) (err error) {
 		img.SetImageOrientation(imagick.ORIENTATION_TOP_LEFT)
 		return
 	case imagick.ORIENTATION_BOTTOM_RIGHT:
-		err = img.RotateImage(imagick.NewPixelWand(), 180)
+		pixel := imagick.NewPixelWand()
+		defer pixel.Destroy()
+		err = img.RotateImage(pixel, 180)
 		img.SetImageOrientation(imagick.ORIENTATION_TOP_LEFT)
 		return
 	case imagick.ORIENTATION_BOTTOM_LEFT:
-		err =  img.FlopImage()
+		err = img.FlopImage()
 		img.SetImageOrientation(imagick.ORIENTATION_TOP_LEFT)
 		return
 	case imagick.ORIENTATION_RIGHT_TOP:
-		err =  img.RotateImage(imagick.NewPixelWand(), 90)
+		pixel := imagick.NewPixelWand()
+		defer pixel.Destroy()
+		err = img.RotateImage(pixel, 90)
 		img.SetImageOrientation(imagick.ORIENTATION_TOP_LEFT)
 		return
 	case imagick.ORIENTATION_LEFT_BOTTOM:
-		err =  img.RotateImage(imagick.NewPixelWand(), 270)
+		pixel := imagick.NewPixelWand()
+		defer pixel.Destroy()
+		err = img.RotateImage(pixel, 270)
 		img.SetImageOrientation(imagick.ORIENTATION_TOP_LEFT)
 		return
 	}
