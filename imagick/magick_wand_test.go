@@ -27,3 +27,11 @@ func TestReadImageOK(t *testing.T) {
 	assert.Equal(t, int(img.GetImageWidth()), 320)
 	assert.Equal(t, int(img.GetImageHeight()), 240)
 }
+
+func TestGetImageBlob(t *testing.T) {
+	img := NewMagickWand()
+	defer img.Destroy()
+	err := img.ReadImage("./test_data/kth.jpg")
+	assert.Nil(t, err)
+	assert.Equal(t, len(img.GetImageBlob()), 28611)
+}
