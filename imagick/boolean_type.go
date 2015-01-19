@@ -5,9 +5,9 @@ package imagick
 */
 import "C"
 
-type MagickBooleanType int
+type BooleanType int
 
 const(
-	BOOLEAN_TYPE_FALSE MagickBooleanType = C.MagickFalse
-	BOOLEAN_TYPE_TRUE MagickBooleanType = C.MagickTrue
+	BOOLEAN_TYPE_FALSE BooleanType = C.MagickFalse
+	BOOLEAN_TYPE_TRUE BooleanType = C.MagickTrue
 )

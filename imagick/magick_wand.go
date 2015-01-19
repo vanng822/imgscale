@@ -40,7 +40,7 @@ func (mw *MagickWand) ReadImageBlob(blob []byte) error {
 		return fmt.Errorf("Blob can not be empty")
 	}
 	res := C.MagickReadImageBlob(mw.mw, unsafe.Pointer(&blob[0]), C.size_t(len(blob)))
-	return mw.checkResult(MagickBooleanType(res))
+	return mw.checkResult(BooleanType(res))
 }
 
 func (mw *MagickWand) GetImageHeight() uint {
@@ -54,32 +54,32 @@ func (mw *MagickWand) GetImageWidth() uint {
 func (mw *MagickWand) CommentImage(comment string) error {
 	csComment := C.CString(comment)
 	defer C.free(unsafe.Pointer(csComment))
-	return mw.checkResult(MagickBooleanType(C.MagickCommentImage(mw.mw, csComment)))
+	return mw.checkResult(BooleanType(C.MagickCommentImage(mw.mw, csComment)))
 }
 
 func (mw *MagickWand) ThumbnailImage(cols, rows uint) error {
-	return mw.checkResult(MagickBooleanType(C.MagickThumbnailImage(mw.mw, C.size_t(cols), C.size_t(rows))))
+	return mw.checkResult(BooleanType(C.MagickThumbnailImage(mw.mw, C.size_t(cols), C.size_t(rows))))
 }
 
 func (mw *MagickWand) ScaleImage(cols, rows uint) error {
-	return mw.checkResult(MagickBooleanType(C.MagickScaleImage(mw.mw, C.size_t(cols), C.size_t(rows))))
+	return mw.checkResult(BooleanType(C.MagickScaleImage(mw.mw, C.size_t(cols), C.size_t(rows))))
 }
 
 func (mw *MagickWand) CropImage(width, height uint, x, y int) error {
 	res := C.MagickCropImage(mw.mw, C.size_t(width), C.size_t(height), C.ssize_t(x), C.ssize_t(y))
-	return mw.checkResult(MagickBooleanType(res))
+	return mw.checkResult(BooleanType(res))
 }
 
 func (mw *MagickWand) FlipImage() error {
-	return mw.checkResult(MagickBooleanType(C.MagickFlipImage(mw.mw)))
+	return mw.checkResult(BooleanType(C.MagickFlipImage(mw.mw)))
 }
 
 func (mw *MagickWand) RotateImage(background *PixelWand, degrees float64) error {
-	return mw.checkResult(MagickBooleanType(C.MagickRotateImage(mw.mw, background.pw, C.double(degrees))))
+	return mw.checkResult(BooleanType(C.MagickRotateImage(mw.mw, background.pw, C.double(degrees))))
 }
 
 func (mw *MagickWand) FlopImage() error {
-	return mw.checkResult(MagickBooleanType(C.MagickFlopImage(mw.mw)))
+	return mw.checkResult(BooleanType(C.MagickFlopImage(mw.mw)))
 }
 
 func (mw *MagickWand) GetImageOrientation() OrientationType {
@@ -88,21 +88,21 @@ func (mw *MagickWand) GetImageOrientation() OrientationType {
 
 func (mw *MagickWand) SetImageOrientation(orientation OrientationType) error {
 	res := C.MagickSetImageOrientation(mw.mw, C.OrientationType(orientation))
-	return mw.checkResult(MagickBooleanType(res))
+	return mw.checkResult(BooleanType(res))
 }
 
 func (mw *MagickWand) ReadImage(filename string) error {
 	csFilename := C.CString(filename)
 	defer C.free(unsafe.Pointer(csFilename))
-	return mw.checkResult(MagickBooleanType(C.MagickReadImage(mw.mw, csFilename)))
+	return mw.checkResult(BooleanType(C.MagickReadImage(mw.mw, csFilename)))
 }
 
 func (mw *MagickWand) CompositeImage(source *MagickWand, compose CompositeOperator, x, y int) error {
 	res := C.MagickCompositeImage(mw.mw, source.mw, C.CompositeOperator(compose), C.ssize_t(x), C.ssize_t(y))
-	return mw.checkResult(MagickBooleanType(res))
+	return mw.checkResult(BooleanType(res))
 }
 
-func (mw *MagickWand) checkResult(res MagickBooleanType) error {
+func (mw *MagickWand) checkResult(res BooleanType) error {
 	if res == BOOLEAN_TYPE_TRUE {
 		return nil
 	}
