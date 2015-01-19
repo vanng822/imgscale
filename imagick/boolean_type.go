@@ -7,7 +7,7 @@ import "C"
 
 type BooleanType int
 
-const(
+const (
 	BOOLEAN_TYPE_FALSE BooleanType = C.MagickFalse
-	BOOLEAN_TYPE_TRUE BooleanType = C.MagickTrue
+	BOOLEAN_TYPE_TRUE  BooleanType = C.MagickTrue
 )
