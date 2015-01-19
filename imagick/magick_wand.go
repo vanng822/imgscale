@@ -125,5 +125,5 @@ func (mw *MagickWand) relinquishMemory(ptr unsafe.Pointer) {
 }
 
 func (mw *MagickWand) clearException() bool {
-	return 1 == C.int(C.MagickClearException(mw.mw))
+	return BOOLEAN_TYPE_TRUE == BooleanType(C.MagickClearException(mw.mw))
 }
