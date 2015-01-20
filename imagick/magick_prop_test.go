@@ -13,7 +13,8 @@ func TestGetVersion(t *testing.T) {
 
 
 func TestResourceLimit(t *testing.T) {
-	area := GetResourceLimit(RESOURCE_AREA)/2
-	assert.True(t, SetResourceLimit(RESOURCE_AREA, area))
-	assert.Equal(t, area, GetResourceLimit(RESOURCE_AREA))
+	area := GetResourceLimit(RESOURCE_AREA)
+	assert.True(t, area > 0)
+	assert.True(t, SetResourceLimit(RESOURCE_AREA, area/2))
+	assert.Equal(t, area/2, GetResourceLimit(RESOURCE_AREA))
 }
