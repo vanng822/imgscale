@@ -109,7 +109,11 @@ func (h *handler) serve(res http.ResponseWriter, req *http.Request, info *ImageI
 			}
 		}
 		imgData := img.GetImageBlob()
-		res.Header().Set("Content-Type", h.getContentType(info.Ext))
+		mimeType := img.GetImageMimeType()
+		if mimeType == "" {
+			mimeType = h.getContentType(info.Ext)
+		}
+		res.Header().Set("Content-Type", mimeType)
 		res.Header().Set("Content-Length", strconv.Itoa(len(imgData)))
 		res.Write(imgData)
 	}
