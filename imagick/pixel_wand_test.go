@@ -7,6 +7,7 @@ import (
 
 func TestNewPixelWand(t *testing.T) {
 	pixel := NewPixelWand()
-	defer pixel.Destroy()
 	assert.NotNil(t, pixel)
+	pixel.Destroy()
+	assert.Nil(t, pixel.pw)
 }
