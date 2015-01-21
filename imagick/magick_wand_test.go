@@ -30,6 +30,14 @@ func TestReadImageOK(t *testing.T) {
 	assert.Equal(t, int(img.GetImageHeight()), 240)
 }
 
+func TestDestroy(t *testing.T) {
+	img := NewMagickWand()
+	err := img.ReadImage("./test_data/kth.jpg")
+	img.Destroy()
+	assert.Nil(t, img.mw)
+	assert.Nil(t, err)
+}
+
 func TestGetImageBlob(t *testing.T) {
 	img := NewMagickWand()
 	defer img.Destroy()
