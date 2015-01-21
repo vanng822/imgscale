@@ -10,7 +10,7 @@ func TestIdentifyImage(t *testing.T) {
 	defer img.Destroy()
 	err := img.ReadImage("./test_data/kth.jpg")
 	assert.Nil(t, err)
-	assert.Regexp(t, "Format: JPEG", img.IdentifyImage())
+	assert.Regexp(t, "Mime type: image", img.IdentifyImage())
 }
 
 
