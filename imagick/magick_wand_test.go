@@ -63,6 +63,12 @@ func TestReadImageBlob(t *testing.T) {
 	assert.Equal(t, int(img.GetImageHeight()), 240)
 }
 
+func TestReadImageBlobZeroLength(t *testing.T) {
+	img := NewMagickWand()
+	defer img.Destroy()
+	assert.Error(t, img.ReadImageBlob([]byte{}))
+}
+
 func TestRotateImage(t *testing.T) {
 	img := NewMagickWand()
 	defer img.Destroy()
