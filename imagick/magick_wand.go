@@ -103,7 +103,7 @@ func (mw *MagickWand) CompositeImage(source *MagickWand, compose CompositeOperat
 }
 
 func (mw *MagickWand) checkResult(res BooleanType) error {
-	if res == BOOLEAN_TYPE_TRUE {
+	if res.True() {
 		return nil
 	}
 	return mw.GetLastError()
@@ -125,5 +125,6 @@ func (mw *MagickWand) relinquishMemory(ptr unsafe.Pointer) {
 }
 
 func (mw *MagickWand) clearException() bool {
-	return BOOLEAN_TYPE_TRUE == BooleanType(C.MagickClearException(mw.mw))
+	b := BooleanType(C.MagickClearException(mw.mw))
+	return b.GoBool()
 }

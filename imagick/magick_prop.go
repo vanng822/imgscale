@@ -14,9 +14,8 @@ func GetVersion() (string, uint) {
 }
 
 func SetResourceLimit(resourceType ResourceType, limit int64) bool {
-	res := C.MagickSetResourceLimit(C.ResourceType(resourceType), C.MagickSizeType(limit))
-	return BOOLEAN_TYPE_TRUE == BooleanType(res)
-
+	res := BooleanType(C.MagickSetResourceLimit(C.ResourceType(resourceType), C.MagickSizeType(limit)))
+	return res.GoBool()
 }
 
 // Returns the specified resource limit in megabytes.
