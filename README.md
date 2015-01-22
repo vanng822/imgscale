@@ -79,7 +79,7 @@ You need to install ImageMagick first.
 	
 ### run application
 
-	go run main.go
+	go run example/all.go
 
 ### browse it
 	
