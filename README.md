@@ -29,6 +29,10 @@ You need to install ImageMagick first.
 
 	go get github.com/vanng822/imgscale/imagick
 
+### gopid
+	
+	go get github.com/vanng822/gopid
+	
 ## Install 
 
 	go get github.com/vanng822/imgscale/imgscale
