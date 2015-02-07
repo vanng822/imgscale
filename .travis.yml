@@ -3,6 +3,11 @@ language: golang
 go:
   - 1.4
 
+env:
+  global:
+  - GOPATH="$HOME/gopath"
+  - PATH="$HOME/gopath/bin:$HOME/bin:$PATH"
+
 before_install:
   - sudo apt-get install libmagickwand-dev
 
