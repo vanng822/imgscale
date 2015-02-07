@@ -91,8 +91,12 @@ You need to install ImageMagick first.
 	http://127.0.0.1:8081/img/100x100/http://127.0.0.1:8080/img/original/kth.jpg
 	http://127.0.0.1:8082/img/100x100/kth.jpg
 
-### Demo server at http://imgscale.isgoodness.com/
+### Demo server
 
-[Cute kitty](http://imgscale.isgoodness.com/img/0x360/http://images4.fanpop.com/image/photos/16100000/Cute-Kitten-kittens-16123796-1280-800.jpg)
+http://imgscale.isgoodness.com/ is set up with arbitrary remote image. Please be nice!
 
 Formats: 100x100, 100x0, 0x360, 0x170
+
+And the url will be http://imgscale.isgoodness.com/img/FORMAT/REMOTE_IMAGE
+
+Check out [Cute kitty](http://imgscale.isgoodness.com/img/0x360/http://images4.fanpop.com/image/photos/16100000/Cute-Kitten-kittens-16123796-1280-800.jpg)
