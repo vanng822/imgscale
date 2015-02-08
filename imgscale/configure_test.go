@@ -51,3 +51,10 @@ func TestConfigureSeparator(t *testing.T) {
 	assert.Len(t, handler.formats, 2)
 	assert.Equal(t, handler.supportedExts, supportedExts)
 }
+
+func TestLoadConfig(t *testing.T) {
+	config := LoadConfig("./test_config/formats.json")
+	assert.Equal(t, config.conffile, "./test_config/formats.json")
+	assert.Equal(t, config.Prefix, "img")
+	assert.Equal(t, config.Path, "./test_data")
+}

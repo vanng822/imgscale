@@ -21,10 +21,15 @@ type handler struct {
 	cleanupDone   bool
 }
 
+func (h *handler) Reload() {
+	setupHandlerConfig(h, LoadConfig(h.config.conffile))
+}
+
 func (h *handler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 	if req.Method != "GET" && req.Method != "HEAD" {
 		return
 	}
+	
 	matched, info := h.match(req.URL.RequestURI())
 	if !matched {
 		return

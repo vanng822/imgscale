@@ -46,5 +46,7 @@ type Handler interface {
 	SetValidator(validator Validator)
 	// Free C pointers and terminate MagickWand environment
 	Cleanup()
+	// Reload configuration
+	Reload()
 }
 
