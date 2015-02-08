@@ -28,21 +28,28 @@ func main() {
 	flag.BoolVar(&force, "f", false, "Force and remove pid file")
 	flag.Parse()
 
-	if pidFile != "" {		
+	if pidFile != "" {
 		gopid.CheckPid(pidFile, force)
 		gopid.CreatePid(pidFile)
 		defer gopid.CleanPid(pidFile)
 	}
 
 	sigc := make(chan os.Signal, 1)
-	signal.Notify(sigc, os.Kill, os.Interrupt, syscall.SIGTERM)
-
+	signal.Notify(sigc, os.Kill, os.Interrupt, syscall.SIGTERM, syscall.SIGUSR2)
 	handler := imgscale.Configure(configPath)
 	defer handler.Cleanup()
 	http.Handle("/", handler)
 	log.Printf("listening to address %s:%d", host, port)
 	go http.ListenAndServe(fmt.Sprintf("%s:%d", host, port), nil)
-
-	sig := <-sigc
-	log.Printf("Got signal: %s", sig)
+	for {
+		sig := <-sigc
+		switch sig {
+		case syscall.SIGUSR2:
+			log.Println("Reloading config")
+			handler.Reload()
+		default:
+			log.Printf("Got signal: %s", sig)
+			return
+		}
+	}
 }
