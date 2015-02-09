@@ -139,6 +139,17 @@ func TestServeHTTPOK(t *testing.T) {
 	assert.Equal(t, w.Header().Get("Content-Type"), "image/jpeg")
 }
 
+func TestServeHTTPOKParam(t *testing.T) {
+	handler := getHandler()
+	req, err := http.NewRequest("GET", "http://127.0.0.1:8080/img/original/kth.jpg?test=image.png", nil)
+	assert.Nil(t, err)
+	w := httptest.NewRecorder()
+	handler.ServeHTTP(w, req)
+	assert.Equal(t, w.Code, 200)
+	assert.InEpsilon(t, w.Body.Len(), 28611, 10)
+	assert.Equal(t, w.Header().Get("Content-Type"), "image/jpeg")
+}
+
 func TestServeHTTPFalseFormat(t *testing.T) {
 	handler := getHandler()
 	req, err := http.NewRequest("GET", "http://example.com/foo", nil)
@@ -151,6 +162,15 @@ func TestServeHTTPFalseFormat(t *testing.T) {
 func TestServeHTTPFalseMethod(t *testing.T) {
 	handler := getHandler()
 	req, err := http.NewRequest("POST", "http://127.0.0.1:8080/img/original/kth.jpg", nil)
+	assert.Nil(t, err)
+	w := httptest.NewRecorder()
+	handler.ServeHTTP(w, req)
+	assert.Equal(t, w.Body.Len(), 0)
+}
+
+func TestServeHTTPFalseParams(t *testing.T) {
+	handler := getHandler()
+	req, err := http.NewRequest("GET", "http://127.0.0.1:8080/img/original/?t=kth.jpg", nil)
 	assert.Nil(t, err)
 	w := httptest.NewRecorder()
 	handler.ServeHTTP(w, req)
