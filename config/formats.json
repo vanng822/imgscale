@@ -5,7 +5,7 @@
 		{"Prefix": "100x100", "Height": 100, "Ratio": 1.0, "Thumbnail": true},
 		{"Prefix": "66x100", "Height": 100, "Ratio": 0.67, "Thumbnail": true},
 		{"Prefix": "100x75", "Height": 75, "Ratio": 1.335, "Thumbnail": true},
-		{"Prefix": "100x0", "Height": 100, "Ratio": 0.0, "Thumbnail": true, "Watermark": true},
+		{"Prefix": "100x0", "Height": 100, "Ratio": 0.0, "Thumbnail": true, "Watermark": true, "Strip": true, "Quality": 85},
 		{"Prefix": "originalx1", "Height": 300, "Ratio": 1.0, "Thumbnail": false, "Watermark": false},
 		{"Prefix": "original", "Height": 0, "Ratio": 0.0, "Thumbnail": false, "Watermark": false}
 	],
