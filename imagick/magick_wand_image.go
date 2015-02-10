@@ -33,3 +33,12 @@ func (mw *MagickWand) GetImageMimeType() string {
 	}
 	return ""
 }
+
+func (mw *MagickWand) SetImageCompressionQuality(quality uint) error {
+	res := C.MagickSetImageCompressionQuality(mw.mw, C.size_t(quality))
+	return mw.checkResult(BooleanType(res))
+}
+
+func (mw *MagickWand) StripImage() error {
+	return mw.checkResult(BooleanType(C.MagickStripImage(mw.mw)))
+}
