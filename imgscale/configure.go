@@ -18,6 +18,10 @@ import (
 	Thumbnail: true to use thumbnail feature in imagemagick, it is quick and optimized but you loose meta data
 
 	Watermark: Indicate if watermark should apply on this format
+	
+	Quality: Compression quality
+	
+	Strip: strips all profiles and original comments
 
 */
 type Format struct {
@@ -26,6 +30,8 @@ type Format struct {
 	Ratio     float64
 	Thumbnail bool
 	Watermark bool
+	Quality   uint
+	Strip     bool
 }
 
 /*
@@ -93,7 +99,7 @@ func compilePath(config *Config) *regexp.Regexp {
 		strings.Join(prefixes, "|"),
 		separator,
 		strings.Join(config.Exts, "|"))
-	
+
 	return regexp.MustCompile(path)
 }
 

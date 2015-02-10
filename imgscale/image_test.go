@@ -88,3 +88,31 @@ func TestAutoRotate(t *testing.T) {
 	}
 	
 }
+
+func TestGetImageStrip(t *testing.T) {
+	path, _ := filepath.Abs("./test_data/")
+	provider := NewImageProviderFile(path)
+	filename := "kth.jpg"
+	f := &Format{Prefix: "original", Height: 0, Ratio: 0.0, Thumbnail: false, Strip: true}
+	info := &ImageInfo{filename, f, "jpg", ""}
+	img, err := provider.Fetch(info.Filename)
+	defer img.Destroy()
+	assert.Nil(t, err)
+	originalLen := len(img.GetImageBlob())
+	assert.Nil(t, ProcessImage(img, info))
+	assert.True(t, originalLen > len(img.GetImageBlob()))
+}
+
+func TestGetImageQuality(t *testing.T) {
+	path, _ := filepath.Abs("./test_data/")
+	provider := NewImageProviderFile(path)
+	filename := "kth.jpg"
+	f := &Format{Prefix: "original", Height: 0, Ratio: 0.0, Thumbnail: false, Strip: false, Quality: 9}
+	info := &ImageInfo{filename, f, "jpg", ""}
+	img, err := provider.Fetch(info.Filename)
+	defer img.Destroy()
+	assert.Nil(t, err)
+	originalLen := len(img.GetImageBlob())
+	assert.Nil(t, ProcessImage(img, info))
+	assert.True(t, originalLen > len(img.GetImageBlob()))
+}

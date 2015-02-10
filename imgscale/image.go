@@ -76,8 +76,14 @@ func cropScaleImage(img *imagick.MagickWand, info *ImageInfo) error {
 
 */
 func ProcessImage(img *imagick.MagickWand, info *ImageInfo) (err error) {
+	if info.Format.Strip {
+		img.StripImage()
+	}
 	if info.Comment != "" {
 		img.CommentImage(info.Comment)
+	}
+	if info.Format.Quality > 0 {
+		img.SetImageCompressionQuality(info.Format.Quality)
 	}
 	// No crop if zero
 	if info.Format.Ratio <= 0.0 {
