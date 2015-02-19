@@ -28,8 +28,8 @@ func TestGetImageScaleOK(t *testing.T) {
 	defer img.Destroy()
 	assert.Nil(t, err)
 	err = ProcessImage(img, info)
-	assert.Equal(t, 100, img.GetImageHeight())
-	assert.Equal(t, 133, img.GetImageWidth())
+	assert.Equal(t, uint(100), img.GetImageHeight())
+	assert.Equal(t, uint(133), img.GetImageWidth())
 	assert.Nil(t, err)
 }
 
@@ -44,8 +44,8 @@ func TestGetImage100x100OK(t *testing.T) {
 	defer img.Destroy()
 	assert.Nil(t, err)
 	err = ProcessImage(img, info)
-	assert.Equal(t, 100, img.GetImageHeight())
-	assert.Equal(t, 100, img.GetImageWidth())
+	assert.Equal(t, uint(100), img.GetImageHeight())
+	assert.Equal(t, uint(100), img.GetImageWidth())
 	assert.Nil(t, err)
 }
 
