@@ -10,8 +10,8 @@ func TestFetchOK(t *testing.T) {
 	img, err := provider.Fetch("kth.jpg")
 	defer img.Destroy()
 	assert.Nil(t, err)
-	assert.Equal(t, img.GetImageWidth(), 320)
-	assert.Equal(t, img.GetImageHeight(), 240)
+	assert.Equal(t, img.GetImageWidth(), uint(320))
+	assert.Equal(t, img.GetImageHeight(), uint(240))
 }
 
 func TestFetchOKSlash(t *testing.T) {
@@ -19,8 +19,8 @@ func TestFetchOKSlash(t *testing.T) {
 	img, err := provider.Fetch("kth.jpg")
 	defer img.Destroy()
 	assert.Nil(t, err)
-	assert.Equal(t, img.GetImageWidth(), 320)
-	assert.Equal(t, img.GetImageHeight(), 240)
+	assert.Equal(t, img.GetImageWidth(), uint(320))
+	assert.Equal(t, img.GetImageHeight(), uint(240))
 }
 
 func TestFetchError(t *testing.T) {

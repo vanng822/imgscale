@@ -104,7 +104,7 @@ func TestGetFormat(t *testing.T) {
 	handler := getHandler()
 	format := handler.getFormat("original")
 	assert.Equal(t, format.Prefix, "original")
-	assert.Equal(t, format.Height, 0)
+	assert.Equal(t, format.Height, uint(0))
 	assert.False(t, format.Thumbnail)
 	assert.Nil(t, handler.getFormat("tiff"))
 }
@@ -116,7 +116,7 @@ func TestGetImageInfoOK(t *testing.T) {
 	assert.Equal(t, info.Ext, "jpg")
 	assert.Equal(t, info.Filename, "kth.jpg")
 	assert.Equal(t, info.Format.Prefix, "100x100")
-	assert.Equal(t, info.Format.Height, 100)
+	assert.Equal(t, info.Format.Height, uint(100))
 	assert.Equal(t, info.Format.Ratio, 1.0)
 	assert.True(t, info.Format.Thumbnail)
 }

@@ -18,8 +18,8 @@ func TestHttpFetchOK(t *testing.T) {
 	defer img.Destroy()
 	
 	assert.Nil(t, err)
-	assert.Equal(t, img.GetImageWidth(), 320)
-	assert.Equal(t, img.GetImageHeight(), 240)
+	assert.Equal(t, img.GetImageWidth(), uint(320))
+	assert.Equal(t, img.GetImageHeight(), uint(240))
 }
 
 func TestHttpFetchOKBaseUrl(t *testing.T) {
@@ -33,6 +33,6 @@ func TestHttpFetchOKBaseUrl(t *testing.T) {
 	defer img.Destroy()
 	
 	assert.Nil(t, err)
-	assert.Equal(t, img.GetImageWidth(), 320)
-	assert.Equal(t, img.GetImageHeight(), 240)
+	assert.Equal(t, img.GetImageWidth(), uint(320))
+	assert.Equal(t, img.GetImageHeight(), uint(240))
 }
