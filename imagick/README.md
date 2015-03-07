@@ -1,3 +1,6 @@
+# Imagick
+Minimal binding of magickwand for image scaling
+
 ## Dependencies
 
 You need to install ImageMagick first.
