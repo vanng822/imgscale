@@ -1,4 +1,4 @@
-package provider_mongodb
+package mongodb
 
 import (
 	"github.com/vanng822/imgscale/imagick"
