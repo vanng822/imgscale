@@ -24,10 +24,6 @@ func getSession(url string) *mgo.Session {
 	return session.New()
 }
 
-func getDB(url string) *mgo.Database {
-	return getSession(url).DB("")
-}
-
 type imageProviderMongodb struct {
 	url    string
 	prefix string
@@ -40,13 +36,16 @@ func NewImageProviderMongodb(prefix, url string) imgscale.ImageProvider {
 	}
 }
 
-func (ipm *imageProviderMongodb) getGridFS() *mgo.GridFS {
-	return getDB(ipm.url).GridFS(ipm.prefix)
+func (ipm *imageProviderMongodb) getGridFS(session *mgo.Session) *mgo.GridFS {
+	return session.DB("").GridFS(ipm.prefix)
 }
 
 func (ipm *imageProviderMongodb) Fetch(filename string) (*imagick.MagickWand, error) {
 	img := imagick.NewMagickWand()
-	gridfs := ipm.getGridFS()
+	
+	session := getSession(ipm.url)
+	defer session.Close()
+	gridfs := ipm.getGridFS(session)
 
 	fd, err := gridfs.Open(filename)
 	if err != nil {
