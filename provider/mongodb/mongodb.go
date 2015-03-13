@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 )
 
-var session *mgo.Session
+var original_session *mgo.Session
 
 func dial(url string) *mgo.Session {
 	session, err := mgo.Dial(url)
@@ -18,10 +18,10 @@ func dial(url string) *mgo.Session {
 }
 
 func getSession(url string) *mgo.Session {
-	if session == nil {
-		session = dial(url)
+	if original_session == nil {
+		original_session = dial(url)
 	}
-	return session.New()
+	return original_session.New()
 }
 
 type imageProviderMongodb struct {
@@ -29,7 +29,7 @@ type imageProviderMongodb struct {
 	prefix string
 }
 
-func NewImageProviderMongodb(prefix, url string) imgscale.ImageProvider {
+func New(prefix, url string) imgscale.ImageProvider {
 	return &imageProviderMongodb{
 		url:    url,
 		prefix: prefix,
