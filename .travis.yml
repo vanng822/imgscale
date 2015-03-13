@@ -8,6 +8,9 @@ env:
   - GOPATH="$HOME/gopath"
   - PATH="$HOME/gopath/bin:$HOME/bin:$PATH"
 
+services:
+  - mongodb
+
 before_install:
   - sudo apt-get install libmagickwand-dev
 
@@ -15,9 +18,12 @@ before_install:
 install:
   - go get github.com/vanng822/imgscale/imagick
   - go get github.com/vanng822/imgscale/imgscale
+  - go get gopkg.in/mgo.v2
   - go get github.com/stretchr/testify/assert
 
 script:
   - cd imagick && go test -v
   - cd .. 
-  - cd imgscale && go test -v 
+  - cd imgscale && go test -v
+  - cd ..
+  - cd provider/mongodb && go test -v 
