@@ -29,7 +29,11 @@ type imageProviderMongodb struct {
 	prefix string
 }
 
-func New(prefix, url string) imgscale.ImageProvider {
+func New(url, prefix string) imgscale.ImageProvider {
+	if url == "" || prefix == "" {
+		panic("You need to configure 'url' with database and 'prefix'")
+	}
+	
 	return &imageProviderMongodb{
 		url:    url,
 		prefix: prefix,
