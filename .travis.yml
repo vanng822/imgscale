@@ -27,3 +27,5 @@ script:
   - cd imgscale && go test -v
   - cd ..
   - cd provider/mongodb && go test -v 
+  - cd ..
+  - cd provider/http && go test -v 
