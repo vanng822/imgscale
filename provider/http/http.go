@@ -13,7 +13,7 @@ type imageProviderHTTP struct {
 	baseUrl string
 }
 
-func (imageProvider imageProviderHTTP) Fetch(filename string) (*imagick.MagickWand, error) {
+func (imageProvider *imageProviderHTTP) Fetch(filename string) (*imagick.MagickWand, error) {
 	img := imagick.NewMagickWand()
 	// %s%s will make it possible for using on arbitrary remote image
 	// like http://127.0.0.1:8081/img/100x100/http://127.0.0.1:8080/img/original/kth.jpg
@@ -41,7 +41,7 @@ func (imageProvider imageProviderHTTP) Fetch(filename string) (*imagick.MagickWa
 	Be aware what you do and also that it may not work for some handler/frameworks
 */
 func New(baseUrl string) imgscale.ImageProvider {
-	provider := imageProviderHTTP{}
+	provider := &imageProviderHTTP{}
 	if baseUrl != "" {
 		// assume we have a valid base url
 		provider.baseUrl = fmt.Sprintf("%s/", strings.TrimSuffix(baseUrl, "/"))
