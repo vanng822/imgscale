@@ -90,18 +90,6 @@ func TestHandlerDashMatchFalse(t *testing.T) {
 	assert.Nil(t, info2)
 }
 
-func TestGetContentType(t *testing.T) {
-	handler := getHandler()
-	imgData := testGetImageByte("./test_data/kth.jpg")
-	assert.Equal(t, handler.getContentType(imgData), "image/jpeg")
-	
-	imgData = testGetImageByte("./test_data/eyes.gif")
-	assert.Equal(t, handler.getContentType(imgData), "image/gif")
-	
-	imgData = testGetImageByte("./test_data/troll.png")
-	assert.Equal(t, handler.getContentType(imgData), "image/png")
-}
-
 func TestGetFormat(t *testing.T) {
 	handler := getHandler()
 	format := handler.getFormat("original")
@@ -150,6 +138,17 @@ func TestServeHTTPOKParam(t *testing.T) {
 	assert.Equal(t, w.Code, 200)
 	assert.InEpsilon(t, w.Body.Len(), 28611, 10)
 	assert.Equal(t, w.Header().Get("Content-Type"), "image/jpeg")
+}
+
+func TestServeHTTPOKPng(t *testing.T) {
+	handler := getHandler()
+	req, err := http.NewRequest("GET", "http://127.0.0.1:8080/img/original/troll.png", nil)
+	assert.Nil(t, err)
+	w := httptest.NewRecorder()
+	handler.ServeHTTP(w, req)
+	assert.Equal(t, w.Code, 200)
+	assert.InEpsilon(t, w.Body.Len(), 225367, 10)
+	assert.Equal(t, w.Header().Get("Content-Type"), "image/png")
 }
 
 func TestServeHTTPFalseFormat(t *testing.T) {
