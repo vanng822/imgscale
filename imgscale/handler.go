@@ -88,6 +88,10 @@ func (h *handler) watermark(img *imagick.MagickWand) error {
 	return nil
 }
 
+func(h *handler) getMimeType(imgData []byte) string {
+	return http.DetectContentType(imgData)
+}
+
 func (h *handler) serve(res http.ResponseWriter, req *http.Request, info *ImageInfo) {
 	if h.imageProvider == nil {
 		h.imageProvider = NewImageProviderFile(h.config.Path)
@@ -113,11 +117,7 @@ func (h *handler) serve(res http.ResponseWriter, req *http.Request, info *ImageI
 			}
 		}
 		imgData := img.GetImageBlob()
-		mimeType := img.GetImageMimeType()
-		if mimeType == "" {
-			mimeType = h.getContentType(info.Ext)
-		}
-		res.Header().Set("Content-Type", mimeType)
+		res.Header().Set("Content-Type", h.getMimeType(imgData))
 		res.Header().Set("Content-Length", strconv.Itoa(len(imgData)))
 		res.Write(imgData)
 	}

@@ -90,6 +90,18 @@ func TestHandlerDashMatchFalse(t *testing.T) {
 	assert.Nil(t, info2)
 }
 
+func TestGetMimeType(t *testing.T) {
+	handler := getHandler()
+	imgData := testGetImageByte("./test_data/kth.jpg")
+	assert.Equal(t, handler.getMimeType(imgData), "image/jpeg")
+	
+	imgData = testGetImageByte("./test_data/eyes.gif")
+	assert.Equal(t, handler.getMimeType(imgData), "image/gif")
+	
+	imgData = testGetImageByte("./test_data/troll.png")
+	assert.Equal(t, handler.getMimeType(imgData), "image/png")
+}
+
 func TestGetContentType(t *testing.T) {
 	handler := getHandler()
 
