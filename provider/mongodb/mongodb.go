@@ -29,14 +29,14 @@ type imageProviderMongodb struct {
 	prefix string
 }
 
-func New(url, prefix string) imgscale.ImageProvider {
-	if url == "" || prefix == "" {
+func New(config map[string]string) imgscale.ImageProvider {
+	if config["url"] == "" || config["prefix"] == "" {
 		panic("You need to configure 'url' with database and 'prefix'")
 	}
-	
+
 	return &imageProviderMongodb{
-		url:    url,
-		prefix: prefix,
+		url:    config["url"],
+		prefix: config["prefix"],
 	}
 }
 
@@ -46,7 +46,7 @@ func (ipm *imageProviderMongodb) getGridFS(session *mgo.Session) *mgo.GridFS {
 
 func (ipm *imageProviderMongodb) Fetch(filename string) (*imagick.MagickWand, error) {
 	img := imagick.NewMagickWand()
-	
+
 	session := getSession(ipm.url)
 	defer session.Close()
 	gridfs := ipm.getGridFS(session)

@@ -7,7 +7,12 @@ import (
 )
 
 func TestInterfaceImplements(t *testing.T) {
-	s := New(testUrl, testPrefix)
+	config := map[string]string{
+		"url":    testUrl,
+		"prefix": testPrefix,
+	}
+	s := New(config)
+
 	assert.Implements(t, new(imgscale.ImageProvider), s)
 }
 
@@ -17,9 +22,9 @@ func TestFetch(t *testing.T) {
 		prefix: testPrefix,
 	}
 	testPrepareImage(testFilename)
-	
+
 	img, err := s.Fetch(testFilename)
-	
+
 	assert.Nil(t, err)
 	assert.NotNil(t, img)
 	assert.Equal(t, img.GetImageWidth(), uint(320))
