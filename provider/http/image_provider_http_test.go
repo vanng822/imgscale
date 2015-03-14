@@ -1,22 +1,22 @@
-package imgscale
+package http
 
 import (
 	"github.com/stretchr/testify/assert"
-	"testing"
 	"net/http"
 	"net/http/httptest"
+	"testing"
 )
 
 func TestHttpFetchOK(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "../data/kth.jpg")
+		http.ServeFile(w, r, "./data/kth.jpg")
 	}))
 	defer ts.Close()
-	
-	provider := NewImageProviderHTTP("")
+
+	provider := New("")
 	img, err := provider.Fetch(ts.URL)
 	defer img.Destroy()
-	
+
 	assert.Nil(t, err)
 	assert.Equal(t, img.GetImageWidth(), uint(320))
 	assert.Equal(t, img.GetImageHeight(), uint(240))
@@ -24,14 +24,14 @@ func TestHttpFetchOK(t *testing.T) {
 
 func TestHttpFetchOKBaseUrl(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "../data/kth.jpg")
+		http.ServeFile(w, r, "./data/kth.jpg")
 	}))
 	defer ts.Close()
-	
-	provider := NewImageProviderHTTP(ts.URL)
+
+	provider := New(ts.URL)
 	img, err := provider.Fetch("kth.jpg")
 	defer img.Destroy()
-	
+
 	assert.Nil(t, err)
 	assert.Equal(t, img.GetImageWidth(), uint(320))
 	assert.Equal(t, img.GetImageHeight(), uint(240))

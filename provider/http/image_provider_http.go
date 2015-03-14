@@ -1,8 +1,9 @@
-package imgscale
+package http
 
 import (
 	"fmt"
 	"github.com/vanng822/imgscale/imagick"
+	"github.com/vanng822/imgscale/imgscale"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -21,7 +22,7 @@ func (imageProvider imageProviderHTTP) Fetch(filename string) (*imagick.MagickWa
 		return img, err
 	}
 	defer resp.Body.Close()
-	
+
 	imgData, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return img, err
@@ -34,12 +35,12 @@ func (imageProvider imageProviderHTTP) Fetch(filename string) (*imagick.MagickWa
 	NewImageProviderHTTP returns an instance of imageProviderHTTP
 	where baseUrl is absolute url, together with filename it should become
 	a valid url to image resource.
-	
+
 	One can leave baseUrl empty and specify filename as a remote image like
 	http://127.0.0.1:8081/img/100x100/http://127.0.0.1:8080/img/original/kth.jpg
 	Be aware what you do and also that it may not work for some handler/frameworks
 */
-func NewImageProviderHTTP(baseUrl string) ImageProvider {
+func New(baseUrl string) imgscale.ImageProvider {
 	provider := imageProviderHTTP{}
 	if baseUrl != "" {
 		// assume we have a valid base url
