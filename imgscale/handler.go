@@ -65,10 +65,6 @@ func (h *handler) match(url string) (bool, *ImageInfo) {
 	return true, h.getImageInfo(matches[1], matches[2], matches[3])
 }
 
-func (h *handler) getContentType(ext string) string {
-	return h.supportedExts[ext]
-}
-
 func (h *handler) getFormat(format string) *Format {
 	return h.formats[format]
 }
@@ -88,7 +84,7 @@ func (h *handler) watermark(img *imagick.MagickWand) error {
 	return nil
 }
 
-func(h *handler) getMimeType(imgData []byte) string {
+func(h *handler) getContentType(imgData []byte) string {
 	return http.DetectContentType(imgData)
 }
 
@@ -117,7 +113,7 @@ func (h *handler) serve(res http.ResponseWriter, req *http.Request, info *ImageI
 			}
 		}
 		imgData := img.GetImageBlob()
-		res.Header().Set("Content-Type", h.getMimeType(imgData))
+		res.Header().Set("Content-Type", h.getContentType(imgData))
 		res.Header().Set("Content-Length", strconv.Itoa(len(imgData)))
 		res.Write(imgData)
 	}
