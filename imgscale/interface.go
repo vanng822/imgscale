@@ -7,9 +7,10 @@ import (
 
 /*
 	ImageProvider implements image fetching and provide the image source
-	for the handler to serve the request. There are 2 providers available
-	One for local filesystem imageProviderFile and one for remote file
-	using http GET imageProviderHTTP
+	for the handler to serve the request. Local filesystem imageProviderFile
+	is bundled but there are more providers. Take look at provider folder
+	Fetch has to return MagickWand in favour of imageProviderFile. This case
+	we read image data directly to MagickWand
 */
 type ImageProvider interface {
 	Fetch(filename string) (*imagick.MagickWand, error)
@@ -33,9 +34,10 @@ type Validator interface {
 	Handler.ServeHTTP can use similar to http.HandleFunc in case frameworks support
 	only this.
 	
-	Beside that Handler has 3 methods, Handler.SetValidator for setting own validation of the filename
+	Beside that Handler has some more methods, Handler.SetValidator for setting own validation of the filename
 	Handler.SetImageProvider is suitable when you have customized image provider, default is
 	imageProviderFile. And the last method Handler.Cleanup should always call at the end (or defer) to cleanup C pointers.
+	Reload will reload new configurations without stopping service
 */
 type Handler interface {
 	// http.HandleFunc
