@@ -9,14 +9,11 @@ import (
 
 	Format: See Format
 
-	Ext: for content type lookup. Should be jpg or png
-
 	Comment: will be written in image meta data
 */
 type ImageInfo struct {
 	Filename string
 	Format   *Format
-	Ext      string
 	Comment  string
 }
 

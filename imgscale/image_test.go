@@ -13,7 +13,7 @@ func TestGetImageWrongFile(t *testing.T) {
 	
 	filename := "kth.jpg"
 	f := &Format{Prefix: "100x100", Height: 100, Ratio: 1.0, Thumbnail: true}
-	info := &ImageInfo{filename, f, "jpg", ""}
+	info := &ImageInfo{filename, f, ""}
 	_, err := provider.Fetch(info.Filename)
 	assert.Error(t, err)
 }
@@ -23,7 +23,7 @@ func TestGetImageScaleOK(t *testing.T) {
 	provider := imageProviderFile{path}
 	filename := "kth.jpg"
 	f := &Format{Prefix: "133x100", Height: 100, Ratio: 0.0, Thumbnail: false}
-	info := &ImageInfo{filename, f, "jpg", ""}
+	info := &ImageInfo{filename, f, ""}
 	img, err := provider.Fetch(info.Filename)
 	defer img.Destroy()
 	assert.Nil(t, err)
@@ -39,7 +39,7 @@ func TestGetImage100x100OK(t *testing.T) {
 	filename := "kth.jpg"
 	
 	f := &Format{Prefix: "100x100", Height: 100, Ratio: 1.0, Thumbnail: true}
-	info := &ImageInfo{filename, f, "jpg", ""}
+	info := &ImageInfo{filename, f, ""}
 	img, err := provider.Fetch(info.Filename)
 	defer img.Destroy()
 	assert.Nil(t, err)
@@ -55,7 +55,7 @@ func TestAutoRotate(t *testing.T) {
 	filename := "kth.jpg"
 	
 	f := &Format{Prefix: "100x75", Height: 100, Ratio: 1.335, Thumbnail: true}
-	info := &ImageInfo{filename, f, "jpg", ""}
+	info := &ImageInfo{filename, f, ""}
 	img, err := provider.Fetch(info.Filename)
 	defer img.Destroy()
 	assert.Nil(t, err)
@@ -94,7 +94,7 @@ func TestGetImageStrip(t *testing.T) {
 	provider := NewImageProviderFile(path)
 	filename := "kth.jpg"
 	f := &Format{Prefix: "original", Height: 0, Ratio: 0.0, Thumbnail: false, Strip: true}
-	info := &ImageInfo{filename, f, "jpg", ""}
+	info := &ImageInfo{filename, f, ""}
 	img, err := provider.Fetch(info.Filename)
 	defer img.Destroy()
 	assert.Nil(t, err)
@@ -108,7 +108,7 @@ func TestGetImageQuality(t *testing.T) {
 	provider := NewImageProviderFile(path)
 	filename := "kth.jpg"
 	f := &Format{Prefix: "original", Height: 0, Ratio: 0.0, Thumbnail: false, Strip: false, Quality: 9}
-	info := &ImageInfo{filename, f, "jpg", ""}
+	info := &ImageInfo{filename, f, ""}
 	img, err := provider.Fetch(info.Filename)
 	defer img.Destroy()
 	assert.Nil(t, err)

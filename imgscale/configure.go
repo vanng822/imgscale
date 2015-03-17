@@ -18,9 +18,9 @@ import (
 	Thumbnail: true to use thumbnail feature in imagemagick, it is quick and optimized but you loose meta data
 
 	Watermark: Indicate if watermark should apply on this format
-	
+
 	Quality: Compression quality
-	
+
 	Strip: strips all profiles and original comments
 
 */
@@ -84,7 +84,7 @@ func getFormats(config *Config) map[string]*Format {
 }
 
 func compilePath(config *Config) *regexp.Regexp {
-	var separator string
+	var separator, ext string
 	if config.Separator != "" {
 		separator = config.Separator
 	} else {
@@ -94,11 +94,16 @@ func compilePath(config *Config) *regexp.Regexp {
 	for _, format := range config.Formats {
 		prefixes = append(prefixes, format.Prefix)
 	}
-	path := fmt.Sprintf("^/%s/(?P<format>%s)%s(?P<filename>.+)\\.(?i)(?P<ext>%s)$",
+	if len(config.Exts) > 0 {
+		ext = fmt.Sprintf("\\.(?i)(%s)", strings.Join(config.Exts, "|"))
+	} else {
+		ext = ""
+	}
+	path := fmt.Sprintf("^/%s/(?P<format>%s)%s(?P<filename>.+%s)$",
 		config.Prefix,
 		strings.Join(prefixes, "|"),
 		separator,
-		strings.Join(config.Exts, "|"))
+		ext)
 
 	return regexp.MustCompile(path)
 }

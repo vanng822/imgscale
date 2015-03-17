@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"regexp"
 	"strconv"
-	"strings"
+	//"strings"
 )
 
 var supportedExts = map[string]string{"jpg": "image/jpeg", "jpeg": "image/jpeg", "png": "image/png"}
@@ -62,19 +62,19 @@ func (h *handler) match(url string) (bool, *ImageInfo) {
 	if len(matches) == 0 {
 		return false, nil
 	}
-	return true, h.getImageInfo(matches[1], matches[2], matches[3])
+	return true, h.getImageInfo(matches[1], matches[2])
 }
 
 func (h *handler) getFormat(format string) *Format {
 	return h.formats[format]
 }
 
-func (h *handler) getImageInfo(format, filename, ext string) *ImageInfo {
+func (h *handler) getImageInfo(format, filename string) *ImageInfo {
 	f := h.getFormat(format)
 	if f == nil {
 		panic(fmt.Sprintf("Could not find any format configured for '%s'", format))
 	}
-	return &ImageInfo{fmt.Sprintf("%s.%s", filename, ext), f, strings.ToLower(ext), h.config.Comment}
+	return &ImageInfo{filename, f, h.config.Comment}
 }
 
 func (h *handler) watermark(img *imagick.MagickWand) error {
