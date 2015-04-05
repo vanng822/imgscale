@@ -13,6 +13,6 @@ func main() {
 	handler := imgscale.Configure("./config/formats.json")
 	defer handler.Cleanup()
 	// Example how to run an arbitrary remote image provider
-	n.UseHandler(handler)
+	n.UseFunc(handler.HandlerFuncWithNext())
 	http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8080), n)
 }
