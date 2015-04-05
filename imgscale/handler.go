@@ -18,18 +18,27 @@ type handler struct {
 	imageProvider ImageProvider
 	validator     Validator
 	cleanupDone   bool
+	next          http.Handler
 }
 
 func (h *handler) Reload() {
 	setupHandlerConfig(h, LoadConfig(h.config.conffile))
 }
 
+func (h *handler) nextHandler(res http.ResponseWriter, req *http.Request) {
+	if h.next != nil {
+		h.next.ServeHTTP(res, req)
+	}
+}
+
 func (h *handler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 	if req.Method != "GET" && req.Method != "HEAD" {
+		h.nextHandler(res, req)
 		return
 	}
 	matched, info := h.match(req.URL.Path)
 	if !matched {
+		h.nextHandler(res, req)
 		return
 	}
 	if h.validator != nil && h.validator.Validate(info.Filename) == false {
@@ -93,10 +102,12 @@ func (h *handler) serve(res http.ResponseWriter, req *http.Request, info *ImageI
 		defer img.Destroy()
 	}
 	if err != nil {
+		http.Error(res, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 		return
 	}
 	if h.config.AutoRotate {
 		if err = AutoRotate(img); err != nil {
+			http.Error(res, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 			return
 		}
 	}
@@ -104,6 +115,7 @@ func (h *handler) serve(res http.ResponseWriter, req *http.Request, info *ImageI
 	if err = ProcessImage(img, info); err == nil {
 		if info.Format.Watermark {
 			if err = h.watermark(img); err != nil {
+				http.Error(res, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 				return
 			}
 		}
