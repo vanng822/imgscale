@@ -13,7 +13,7 @@ func TestMiddlewareConfigure(t *testing.T) {
 }
 
 func TestMiddlewareMiddleware(t *testing.T) {
-	handler := Middleware("./test_config/formats.json")
+	handler := Configure("./test_config/formats.json").Middleware()
 	assert.NotNil(t, handler, nil)
 	assert.Implements(t, new(http.Handler), handler(nil))
 }

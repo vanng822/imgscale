@@ -50,5 +50,9 @@ type Handler interface {
 	Cleanup()
 	// Reload configuration
 	Reload()
+	// func(next http.Handler) http.Handler
+	Middleware() func(next http.Handler) http.Handler
+	// HandlerFunc With Next HandlerFunc
+	HandlerFuncWithNext() func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc)
 }
 

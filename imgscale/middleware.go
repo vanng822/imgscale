@@ -66,20 +66,21 @@ func Configure(filename string) Handler {
 	return configure(config)
 }
 
-func Middleware(filename string) func(next http.Handler) http.Handler {
-	imagick.Initialize()
-	defer func() {
-		if r := recover(); r != nil {
-			imagick.Terminate()
-			panic(r)
-		}
-	}()
-	config := LoadConfig(filename)
-	handler := configure(config)
+func (h *handler) Middleware() func(next http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
-		handler.next = next
+		h.next = next
 		return http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-			handler.ServeHTTP(res, req)
+			h.ServeHTTP(res, req)
 		})
 	}
 }
+
+// HandlerFunc With Next HandlerFunc
+func (h *handler) HandlerFuncWithNext() func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+	return func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+		h.next = http.HandlerFunc(next)
+		h.ServeHTTP(w, r)
+	}
+}
+
+
