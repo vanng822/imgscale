@@ -42,6 +42,7 @@ func (h *handler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	if h.validator != nil && h.validator.Validate(info.Filename) == false {
+		http.Error(res, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
 	h.serve(res, req, info)
