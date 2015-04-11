@@ -31,10 +31,10 @@ func New(config map[string]string) imgscale.ImageProvider {
 	client := s3.New(auth, aws.Regions[regionName])
 	bucket := client.Bucket(bucketName)
 
-	return NewIS4(bucket, s3.ACL(ACL))
+	return NewIPS3(bucket, s3.ACL(ACL))
 }
 
-func NewIS4(bucket *s3.Bucket, ACL s3.ACL) imgscale.ImageProvider {
+func NewIPS3(bucket *s3.Bucket, ACL s3.ACL) imgscale.ImageProvider {
 	s := &imageProviderS3{
 		bucket: bucket,
 		ACL:    ACL,
