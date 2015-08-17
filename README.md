@@ -49,6 +49,13 @@ You need to install ImageMagick first.
 
 ## Example
 
+	// r2router: github.com/vanng822/r2router
+	app := r2router.NewSeeforRouter()
+	handler := imgscale.Configure("./config/formats.json")
+	defer handler.Cleanup()
+	app.Use(handler.ServeHTTP)
+	go http.ListenAndServe(fmt.Sprintf("%s:%d", "127.0.0.1", 8080), app)
+	
 	// Negroni
 	app := negroni.New()
 	handler := imgscale.Configure("./config/formats.json")
