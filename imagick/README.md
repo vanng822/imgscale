@@ -1,18 +1,18 @@
 # Imagick
-Minimal binding of magickwand for image scaling
+Minimal binding of magickwand for image scaling. For more features please go here https://github.com/gographics/imagick
 
 ## Dependencies
 
 You need to install ImageMagick first.
 
 ### MacPorts
-	
+
 	sudo port install ImageMagick
 
 ### Homebrew
 
 	brew install imagemagick
-	
+
 ### Ubuntu/Debian
 
 	sudo apt-get install libmagickwand-dev
@@ -20,4 +20,3 @@ You need to install ImageMagick first.
 ### Install
 
 	go get github.com/vanng822/imgscale/imagick
-	

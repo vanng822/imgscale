@@ -42,3 +42,55 @@ func (mw *MagickWand) SetImageCompressionQuality(quality uint) error {
 func (mw *MagickWand) StripImage() error {
 	return mw.checkResult(BooleanType(C.MagickStripImage(mw.mw)))
 }
+
+
+func (mw *MagickWand) GetImageProperties(pattern string) (properties []string) {
+    cspattern := C.CString(pattern)
+    defer C.free(unsafe.Pointer(cspattern))
+    np := C.size_t(0)
+    ps := C.MagickGetImageProperties(mw.mw, cspattern, &np)
+    defer relinquishMemoryCStringArray(ps)
+    properties = sizedCStringArrayToStringSlice(ps, np)
+    return
+}
+
+func (mw *MagickWand) GetImagePropertyValues(pattern string) map[string]string {
+    properties := mw.GetImageProperties(pattern)
+    if len(properties) > 0 {
+        returnValues := make(map[string]string, len(properties))
+        for _, property := range properties {
+            returnValues[property] = mw.GetImageProperty(property)
+        }
+        return returnValues
+    }
+
+    return nil
+}
+
+func relinquishMemoryCStringArray(p **C.char) {
+    defer C.MagickRelinquishMemory(unsafe.Pointer(p))
+    for *p != nil {
+        ptr := unsafe.Pointer(*p)
+        if ptr != nil {
+            C.MagickRelinquishMemory(ptr)
+        }
+        q := uintptr(unsafe.Pointer(p))
+        q += unsafe.Sizeof(q)
+        p = (**C.char)(unsafe.Pointer(q))
+    }
+}
+
+func sizedCStringArrayToStringSlice(p **C.char, num C.size_t) []string {
+    var returnStrings []string
+    q := uintptr(unsafe.Pointer(p))
+    for i := 0; i < int(num); i++ {
+        p = (**C.char)(unsafe.Pointer(q))
+        if *p == nil {
+            break
+        }
+        returnStrings = append(returnStrings, C.GoString(*p))
+        q += unsafe.Sizeof(q)
+    }
+    return returnStrings
+}
+
