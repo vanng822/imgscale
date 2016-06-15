@@ -54,7 +54,7 @@ import (
 		http.ListenAndServe(fmt.Sprintf("%s:%d", "", 8080), nil)
 
 */
-func Configure(filename string) Handler {
+func Configure(filename interface{}) Handler {
 	imagick.Initialize()
 	defer func() {
 		if r := recover(); r != nil {
@@ -62,7 +62,16 @@ func Configure(filename string) Handler {
 			panic(r)
 		}
 	}()
-	config := LoadConfig(filename)
+    var config *Config
+    switch v := filename.(type) {
+    case string:
+        config = LoadConfig(v)
+    case *Config:
+        config = v
+    default:
+        panic("Wrong type! should be string or imgscale.Config")
+    }
+
 	return configure(config)
 }
 

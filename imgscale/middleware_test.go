@@ -23,3 +23,10 @@ func TestMiddlewareConfigurePanic(t *testing.T) {
 		Configure("../test_config/formats.json")
 	})
 }
+
+func TestMiddlewareConfigureWithConfig(t *testing.T) {
+    conf := LoadConfig("./test_config/formats.json")
+    handler := Configure(conf)
+    assert.NotNil(t, handler, nil)
+    assert.Implements(t, new(Handler), handler)
+}
