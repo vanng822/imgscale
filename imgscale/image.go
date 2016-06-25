@@ -44,10 +44,16 @@ func getCropParams(imageWidth, imageHeight uint, ratio float64) *cropParams {
 
 func scaleImage(img *imagick.MagickWand, info *ImageInfo) error {
 	// no need of scaling if height is zero
-	if info.Format.Height <= 0 {
+	if info.Format.Height <= 0 && info.Format.Width <= 0 {
 		return nil
 	}
-	scaleFactor := float64(info.Format.Height) / float64(img.GetImageHeight())
+	var scaleFactor float64
+	if info.Format.Width > 0 {
+		scaleFactor = float64(info.Format.Width) / float64(img.GetImageWidth())
+	} else {
+		scaleFactor = float64(info.Format.Height) / float64(img.GetImageHeight())
+	}
+
 	if info.Format.Thumbnail {
 		return img.ThumbnailImage(uint(float64(img.GetImageWidth())*scaleFactor), uint(float64(img.GetImageHeight())*scaleFactor))
 	} else {

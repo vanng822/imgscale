@@ -13,6 +13,8 @@ import (
 
 	Height: the target height
 
+	Width: only use on scale only
+
 	Ratio: zero for keeping ratio
 
 	Thumbnail: true to use thumbnail feature in imagemagick, it is quick and optimized but you loose meta data
@@ -27,6 +29,7 @@ import (
 type Format struct {
 	Prefix    string
 	Height    uint
+	Width			uint
 	Ratio     float64
 	Thumbnail bool
 	Watermark bool
